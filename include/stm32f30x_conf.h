@@ -1,6 +1,6 @@
 /**
   ******************************************************************************
-  * @file    Project/STM32F30x_StdPeriph_Templates/stm32f30x_conf.h 
+  * @file    stm32f30x_conf.h
   * @author  MCD Application Team
   * @version V1.0.0
   * @date    23-October-2012
