@@ -1,3 +1,4 @@
+#include <stm32f30x.h>
 #include <stm32f30x_gpio.h>
 #include <stm32f30x_rcc.h>
 #include <stm32f30x_tim.h>
@@ -73,6 +74,7 @@ void GPIO_ToggleBits(GPIO_TypeDef* GPIOx, uint16_t GPIO_Pin)
     GPIOx->ODR ^= GPIO_Pin;
 }
 
+volatile uint32_t clockSpeed = 0;
 
 /**
  * @brief Main entry point.
@@ -88,6 +90,7 @@ int main(__attribute__((unused)) int argc, __attribute__((unused)) char* argv[])
 
     for (;;)
     {
+    	clockSpeed = SystemCoreClock;
     }
 
 	// yup
