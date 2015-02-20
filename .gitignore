@@ -1,0 +1,5 @@
+# Doxygen target directory
+/doc/
+
+# Eclipse build directory
+/Debug/
