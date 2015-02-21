@@ -32,7 +32,7 @@ void InitializeTimer()
     __TIM2_CLK_ENABLE();
 
     TIM_Handle.Instance = TIM2;
-	TIM_Handle.Init.Prescaler = 40000;		// TODO: there's probably a prettier way
+	TIM_Handle.Init.Prescaler = 40000;
 	TIM_Handle.Init.CounterMode = TIM_COUNTERMODE_UP;
 	TIM_Handle.Init.Period = 500;
 	TIM_Handle.Init.ClockDivision = TIM_CLOCKDIVISION_DIV1;
