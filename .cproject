@@ -48,9 +48,9 @@
 							<tool id="ilg.gnuarmeclipse.managedbuild.cross.tool.assembler.1033254946" name="Cross ARM GNU Assembler" superClass="ilg.gnuarmeclipse.managedbuild.cross.tool.assembler">
 								<option id="ilg.gnuarmeclipse.managedbuild.cross.option.assembler.usepreprocessor.823947628" name="Use preprocessor" superClass="ilg.gnuarmeclipse.managedbuild.cross.option.assembler.usepreprocessor" value="true" valueType="boolean"/>
 								<option id="ilg.gnuarmeclipse.managedbuild.cross.option.assembler.include.paths.1495311684" name="Include paths (-I)" superClass="ilg.gnuarmeclipse.managedbuild.cross.option.assembler.include.paths" valueType="includePath">
-									<listOptionValue builtIn="false" value="&quot;../include&quot;"/>
-									<listOptionValue builtIn="false" value="&quot;../system/include&quot;"/>
-									<listOptionValue builtIn="false" value="&quot;../system/include/cmsis&quot;"/>
+									<listOptionValue builtIn="false" value="../include"/>
+									<listOptionValue builtIn="false" value="../system/include"/>
+									<listOptionValue builtIn="false" value="../system/include/cmsis"/>
 									<listOptionValue builtIn="false" value="../system/include/stm32f3-hal"/>
 									<listOptionValue builtIn="false" value="../system/include/cortexm"/>
 									<listOptionValue builtIn="false" value="../middleware/usb/core/include"/>
@@ -67,9 +67,9 @@
 							</tool>
 							<tool id="ilg.gnuarmeclipse.managedbuild.cross.tool.c.compiler.1128693711" name="Cross ARM C Compiler" superClass="ilg.gnuarmeclipse.managedbuild.cross.tool.c.compiler">
 								<option id="ilg.gnuarmeclipse.managedbuild.cross.option.c.compiler.include.paths.31165176" name="Include paths (-I)" superClass="ilg.gnuarmeclipse.managedbuild.cross.option.c.compiler.include.paths" useByScannerDiscovery="false" valueType="includePath">
-									<listOptionValue builtIn="false" value="&quot;../include&quot;"/>
-									<listOptionValue builtIn="false" value="&quot;../system/include&quot;"/>
-									<listOptionValue builtIn="false" value="&quot;../system/include/cmsis&quot;"/>
+									<listOptionValue builtIn="false" value="../include"/>
+									<listOptionValue builtIn="false" value="../system/include"/>
+									<listOptionValue builtIn="false" value="../system/include/cmsis"/>
 									<listOptionValue builtIn="false" value="../system/include/stm32f3-hal"/>
 									<listOptionValue builtIn="false" value="../system/include/cortexm"/>
 									<listOptionValue builtIn="false" value="../middleware/usb/core/include"/>
@@ -86,9 +86,9 @@
 							</tool>
 							<tool id="ilg.gnuarmeclipse.managedbuild.cross.tool.cpp.compiler.513757022" name="Cross ARM C++ Compiler" superClass="ilg.gnuarmeclipse.managedbuild.cross.tool.cpp.compiler">
 								<option id="ilg.gnuarmeclipse.managedbuild.cross.option.cpp.compiler.include.paths.229853561" name="Include paths (-I)" superClass="ilg.gnuarmeclipse.managedbuild.cross.option.cpp.compiler.include.paths" useByScannerDiscovery="false" valueType="includePath">
-									<listOptionValue builtIn="false" value="&quot;../include&quot;"/>
-									<listOptionValue builtIn="false" value="&quot;../system/include&quot;"/>
-									<listOptionValue builtIn="false" value="&quot;../system/include/cmsis&quot;"/>
+									<listOptionValue builtIn="false" value="../include"/>
+									<listOptionValue builtIn="false" value="../system/include"/>
+									<listOptionValue builtIn="false" value="../system/include/cmsis"/>
 									<listOptionValue builtIn="false" value="../system/include/stm32f3-hal"/>
 									<listOptionValue builtIn="false" value="../system/include/cortexm"/>
 									<listOptionValue builtIn="false" value="../middleware/usb/core/include"/>
@@ -244,10 +244,10 @@
 							<tool id="ilg.gnuarmeclipse.managedbuild.cross.tool.assembler.465236191" name="Cross ARM GNU Assembler" superClass="ilg.gnuarmeclipse.managedbuild.cross.tool.assembler">
 								<option id="ilg.gnuarmeclipse.managedbuild.cross.option.assembler.usepreprocessor.1837142469" name="Use preprocessor" superClass="ilg.gnuarmeclipse.managedbuild.cross.option.assembler.usepreprocessor" value="true" valueType="boolean"/>
 								<option id="ilg.gnuarmeclipse.managedbuild.cross.option.assembler.include.paths.997443729" name="Include paths (-I)" superClass="ilg.gnuarmeclipse.managedbuild.cross.option.assembler.include.paths" valueType="includePath">
-									<listOptionValue builtIn="false" value="&quot;../include&quot;"/>
-									<listOptionValue builtIn="false" value="&quot;../system/include&quot;"/>
-									<listOptionValue builtIn="false" value="&quot;../system/include/cmsis&quot;"/>
-									<listOptionValue builtIn="false" value="&quot;../system/include/stm32f3-stdperiph&quot;"/>
+									<listOptionValue builtIn="false" value="../include"/>
+									<listOptionValue builtIn="false" value="../system/include"/>
+									<listOptionValue builtIn="false" value="../system/include/cmsis"/>
+									<listOptionValue builtIn="false" value="../system/include/stm32f3-hal"/>
 									<listOptionValue builtIn="false" value="../system/include/cortexm"/>
 									<listOptionValue builtIn="false" value="../middleware/usb/core/include"/>
 									<listOptionValue builtIn="false" value="../middleware/usb/class/cdc/include"/>
@@ -261,10 +261,10 @@
 							</tool>
 							<tool id="ilg.gnuarmeclipse.managedbuild.cross.tool.c.compiler.990268655" name="Cross ARM C Compiler" superClass="ilg.gnuarmeclipse.managedbuild.cross.tool.c.compiler">
 								<option id="ilg.gnuarmeclipse.managedbuild.cross.option.c.compiler.include.paths.1615374060" name="Include paths (-I)" superClass="ilg.gnuarmeclipse.managedbuild.cross.option.c.compiler.include.paths" useByScannerDiscovery="false" valueType="includePath">
-									<listOptionValue builtIn="false" value="&quot;../include&quot;"/>
-									<listOptionValue builtIn="false" value="&quot;../system/include&quot;"/>
-									<listOptionValue builtIn="false" value="&quot;../system/include/cmsis&quot;"/>
-									<listOptionValue builtIn="false" value="&quot;../system/include/stm32f3-stdperiph&quot;"/>
+									<listOptionValue builtIn="false" value="../include"/>
+									<listOptionValue builtIn="false" value="../system/include"/>
+									<listOptionValue builtIn="false" value="../system/include/cmsis"/>
+									<listOptionValue builtIn="false" value="../system/include/stm32f3-hal"/>
 									<listOptionValue builtIn="false" value="../system/include/cortexm"/>
 									<listOptionValue builtIn="false" value="../middleware/usb/core/include"/>
 									<listOptionValue builtIn="false" value="../middleware/usb/class/cdc/include"/>
@@ -278,10 +278,10 @@
 							</tool>
 							<tool id="ilg.gnuarmeclipse.managedbuild.cross.tool.cpp.compiler.1626155071" name="Cross ARM C++ Compiler" superClass="ilg.gnuarmeclipse.managedbuild.cross.tool.cpp.compiler">
 								<option id="ilg.gnuarmeclipse.managedbuild.cross.option.cpp.compiler.include.paths.1948324845" name="Include paths (-I)" superClass="ilg.gnuarmeclipse.managedbuild.cross.option.cpp.compiler.include.paths" useByScannerDiscovery="false" valueType="includePath">
-									<listOptionValue builtIn="false" value="&quot;../include&quot;"/>
-									<listOptionValue builtIn="false" value="&quot;../system/include&quot;"/>
-									<listOptionValue builtIn="false" value="&quot;../system/include/cmsis&quot;"/>
-									<listOptionValue builtIn="false" value="&quot;../system/include/stm32f3-stdperiph&quot;"/>
+									<listOptionValue builtIn="false" value="../include"/>
+									<listOptionValue builtIn="false" value="../system/include"/>
+									<listOptionValue builtIn="false" value="../system/include/cmsis"/>
+									<listOptionValue builtIn="false" value="../system/include/stm32f3-hal"/>
 									<listOptionValue builtIn="false" value="../system/include/cortexm"/>
 									<listOptionValue builtIn="false" value="../middleware/usb/core/include"/>
 									<listOptionValue builtIn="false" value="../middleware/usb/class/cdc/include"/>
