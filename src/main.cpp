@@ -8,7 +8,7 @@
  */
 void InitializeLEDs()
 {
-    RCC_AHBPeriphClockCmd(RCC_AHBPeriph_GPIOE, ENABLE);
+    __GPIOE_CLK_ENABLE();
 
     GPIO_InitTypeDef gpioStructure;
     gpioStructure.GPIO_Pin = GPIO_Pin_8;
@@ -62,7 +62,7 @@ void EnableTimerInterrupt()
  * @brief Configures the PA8 pin to follow the system clock (or system clock input).
  */
 void InitializeMCOGPIO() {
-	RCC_AHBPeriphClockCmd(RCC_AHBPeriph_GPIOA, ENABLE);
+	__GPIOA_CLK_ENABLE();
 
 	/* Configure MCO (PA8) */
 	GPIO_InitTypeDef gpioStructure;
