@@ -76,7 +76,7 @@ void InitializeMCOGPIO() {
 	HAL_GPIO_Init(GPIOA, &gpioStructure);
 
 	/* Output HSE clock on MCO pin (PA8) */
-	RCC_MCOConfig(RCC_MCOSource_HSE);
+	HAL_RCC_MCOConfig(RCC_MCO, RCC_MCOSOURCE_HSE, RCC_MCO_NODIV);
 }
 
 volatile uint32_t clockSpeed = 0;
