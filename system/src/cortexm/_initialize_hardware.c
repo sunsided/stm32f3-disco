@@ -67,9 +67,21 @@ void
 __attribute__((weak))
 __initialize_hardware(void)
 {
-  // Call the CSMSIS system clock routine to store the clock frequency
-  // in the SystemCoreClock global RAM location.
-  SystemCoreClockUpdate();
+  /* STM32F3xx HAL library initialization:
+	   - Configure the Flash prefetch
+	   - Systick timer is configured by default as source of time base, but user
+		 can eventually implement his proper time base source (a general purpose
+		 timer for example or other time source), keeping in mind that Time base
+		 duration should be kept 1ms since PPP_TIMEOUT_VALUEs are defined and
+		 handled in milliseconds basis.
+	   - Set NVIC Group Priority to 4
+	   - Low Level Initialization
+	 */
+	HAL_Init();
+
+	// Call the CSMSIS system clock routine to store the clock frequency
+	// in the SystemCoreClock global RAM location.
+	SystemCoreClockUpdate();
 }
 
 // ----------------------------------------------------------------------------
