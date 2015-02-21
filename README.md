@@ -1,15 +1,13 @@
-# STM32F3-Discovery example project
+# copycat - an STM32F3-Discovery example project
 
-## Dealbreaker
+This is an example project for getting used to the STM32F3-Discovery board and STM32F303VCT6 MCU.
 
-### Cause / Solution
+## Little Things
 
-While some sources mention the solder bridge SB12 missing on the STM32-Discovery board (which wasn't missing on mine), it turned out that it really was the R48 100 Ω resistor was actually defect. After replacing it with spare parts from some old scanner board, everything works perfectly fine.
+### Eclipse
 
-In this branch, the system outputs the HSE clock to pin PA8 in order to externally verify the signal.  
+If functions from included headers cannot be found according to GCC, they may be filtered out by Eclipse. In order to re-enable filtered-out source files such as `stm32f30x_adc.c` etc. in the following image
 
-### Problem
+![](doc/images/eclipse-filtered.png)
 
-Currently, the board will run only at 8 MHz because of the HSE not starting up.
-
-![](doc/images/hse-not-starting-up.png)
+their *Source Location Filter* needs to be removed from *Project Properties > C/C++ General > Paths and Symbols > Source Location*. There, click *Edit Filter ...* and then *Remove*.
