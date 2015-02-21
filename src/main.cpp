@@ -62,6 +62,25 @@ void EnableTimerInterrupt()
 }
 
 /**
+ * @brief Configures the PA8 pin to follow the system clock (or system clock input).
+ */
+void InitializeMCOGPIO() {
+	RCC_AHBPeriphClockCmd(RCC_AHBPeriph_GPIOA, ENABLE);
+
+	/* Configure MCO (PA8) */
+	GPIO_InitTypeDef gpioStructure;
+	gpioStructure.GPIO_Pin = GPIO_Pin_8;
+	gpioStructure.GPIO_Speed = GPIO_Speed_50MHz;
+	gpioStructure.GPIO_Mode = GPIO_Mode_AF;
+	gpioStructure.GPIO_OType = GPIO_OType_PP;
+	gpioStructure.GPIO_PuPd = GPIO_PuPd_NOPULL ;
+	GPIO_Init(GPIOA, &gpioStructure);
+
+	/* Output HSE clock on MCO pin (PA8) */
+	RCC_MCOConfig(RCC_MCOSource_HSE);
+}
+
+/**
 * @brief  Toggles the specified GPIO pins.
 * @param  GPIOx: where x can be (A..I) to select the GPIO peripheral.
 * @param  GPIO_Pin: Specifies the pins to be toggled.
@@ -87,6 +106,7 @@ int main(__attribute__((unused)) int argc, __attribute__((unused)) char* argv[])
     InitializeLEDs();
     InitializeTimer();
     EnableTimerInterrupt();
+    InitializeMCOGPIO();
 
     for (;;)
     {
