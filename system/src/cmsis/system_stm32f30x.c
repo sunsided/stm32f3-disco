@@ -266,8 +266,6 @@ void SystemCoreClockUpdate (void)
   */
 static void SetSysClock(void)
 {
-  __IO uint32_t StartUpCounter = 0, HSEStatus = 0;
-
 /******************************************************************************/
 /*            PLL (clocked by HSE) used as System clock source                */
 /******************************************************************************/
@@ -276,7 +274,7 @@ static void SetSysClock(void)
   RCC_HSEConfig(RCC_HSE_ON);
 
   /* Wait till HSE is ready and if Time out is reached exit */
-  auto status = RCC_WaitForHSEStartUp();
+  ErrorStatus status = RCC_WaitForHSEStartUp();
 
   if (status == SUCCESS)
   {
