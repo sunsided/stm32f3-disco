@@ -20,6 +20,8 @@ void InitializeLEDs()
     HAL_GPIO_WritePin(GPIOE, GPIO_PIN_8, GPIO_PIN_RESET);
 }
 
+TIM_HandleTypeDef TIM_Handle;
+
 /**
  * @brief Initializes the timer.
  *
@@ -29,7 +31,6 @@ void InitializeTimer()
 {
     __TIM2_CLK_ENABLE();
 
-    TIM_HandleTypeDef TIM_Handle;
     TIM_Handle.Instance = TIM2;
 	TIM_Handle.Init.Prescaler = 40000;		// TODO: there's probably a prettier way
 	TIM_Handle.Init.CounterMode = TIM_COUNTERMODE_UP;
@@ -110,9 +111,9 @@ extern "C" void TIM2_IRQHandler()
 {
     // check the interrupt status;
     // if the interrupt is SET, toggle the LED
-    if (TIM_GetITStatus(TIM2, TIM_IT_Update) != RESET)
+    if (__HAL_TIM_GET_FLAG(&TIM_Handle, TIM_IT_UPDATE) != RESET)
     {
-        TIM_ClearITPendingBit(TIM2, TIM_IT_Update);
+    	__HAL_TIM_CLEAR_FLAG(&TIM_Handle, TIM_IT_UPDATE);
         HAL_GPIO_TogglePin(GPIOE, GPIO_PIN_8);
     }
 }
