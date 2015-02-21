@@ -107,6 +107,15 @@ int main(__attribute__((unused)) int argc, __attribute__((unused)) char* argv[])
 }
 
 /**
+ * @brief System Tick Handler
+ */
+extern "C" void SysTick_Handler()
+{
+    HAL_IncTick();
+    HAL_SYSTICK_IRQHandler();
+}
+
+/**
  * @brief TIM2 Timer Interrupt Handler
  */
 extern "C" void TIM2_IRQHandler()
