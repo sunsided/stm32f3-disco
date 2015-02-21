@@ -1,8 +1,5 @@
 #include <stm32f3xx.h>
-#include <stm32f30x_gpio.h>
-#include <stm32f30x_rcc.h>
-#include <stm32f30x_tim.h>
-#include <stm32f30x_misc.h>
+#include <stm32f3xx_hal.h>
 
 /**
  * @brief Initializes the LEDs.
