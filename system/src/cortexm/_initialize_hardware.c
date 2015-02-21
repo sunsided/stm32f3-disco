@@ -6,6 +6,7 @@
 // ----------------------------------------------------------------------------
 
 #include "stm32f3xx.h"
+#include "_system_clock.h"
 
 // ----------------------------------------------------------------------------
 
@@ -78,6 +79,9 @@ __initialize_hardware(void)
 	   - Low Level Initialization
 	 */
 	HAL_Init();
+
+	// Initialize the system clock.
+	SystemClock_Config();
 
 	// Call the CSMSIS system clock routine to store the clock frequency
 	// in the SystemCoreClock global RAM location.
