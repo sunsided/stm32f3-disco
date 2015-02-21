@@ -57,12 +57,8 @@ void InitializeTimer()
  */
 void EnableTimerInterrupt()
 {
-    NVIC_InitTypeDef nvicStructure;
-    nvicStructure.NVIC_IRQChannel = TIM2_IRQn;
-    nvicStructure.NVIC_IRQChannelPreemptionPriority = 0;
-    nvicStructure.NVIC_IRQChannelSubPriority = 1;
-    nvicStructure.NVIC_IRQChannelCmd = ENABLE;
-    NVIC_Init(&nvicStructure);
+	HAL_NVIC_SetPriority(TIM2_IRQn, 0, 1);
+	HAL_NVIC_EnableIRQ(TIM2_IRQn);
 }
 
 /**
