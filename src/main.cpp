@@ -1,8 +1,5 @@
-#include <stm32f30x.h>
-#include <stm32f30x_gpio.h>
-#include <stm32f30x_rcc.h>
-#include <stm32f30x_tim.h>
-#include <stm32f30x_misc.h>
+#include <stm32f3xx.h>
+#include <stm32f3xx_hal.h>
 
 /**
  * @brief Initializes the LEDs.
@@ -11,18 +8,19 @@
  */
 void InitializeLEDs()
 {
-    RCC_AHBPeriphClockCmd(RCC_AHBPeriph_GPIOE, ENABLE);
+    __GPIOE_CLK_ENABLE();
 
     GPIO_InitTypeDef gpioStructure;
-    gpioStructure.GPIO_Pin = GPIO_Pin_8;
-    gpioStructure.GPIO_Mode = GPIO_Mode_OUT;
-    gpioStructure.GPIO_OType = GPIO_OType_PP;
-    gpioStructure.GPIO_PuPd = GPIO_PuPd_UP;
-    gpioStructure.GPIO_Speed = GPIO_Speed_50MHz;
-    GPIO_Init(GPIOE, &gpioStructure);
+    gpioStructure.Pin = GPIO_PIN_8;
+    gpioStructure.Mode = GPIO_MODE_OUTPUT_PP;
+    gpioStructure.Pull = GPIO_PULLUP;
+    gpioStructure.Speed = GPIO_SPEED_HIGH;
+    HAL_GPIO_Init(GPIOE, &gpioStructure);
 
-    GPIO_WriteBit(GPIOE, GPIO_Pin_8, Bit_RESET);
+    HAL_GPIO_WritePin(GPIOE, GPIO_PIN_8, GPIO_PIN_RESET);
 }
+
+TIM_HandleTypeDef TIM_Handle;
 
 /**
  * @brief Initializes the timer.
@@ -31,19 +29,28 @@ void InitializeLEDs()
  */
 void InitializeTimer()
 {
-    RCC_APB1PeriphClockCmd(RCC_APB1Periph_TIM2, ENABLE);
+    __TIM2_CLK_ENABLE();
 
-    TIM_TimeBaseInitTypeDef timerInitStructure;
-    timerInitStructure.TIM_Prescaler = 40000;
-    timerInitStructure.TIM_CounterMode = TIM_CounterMode_Up;
-    timerInitStructure.TIM_Period = 500;
-    timerInitStructure.TIM_ClockDivision = TIM_CKD_DIV1;
-    timerInitStructure.TIM_RepetitionCounter = 0;
-    TIM_TimeBaseInit(TIM2, &timerInitStructure);
-    TIM_Cmd(TIM2, ENABLE);
+    TIM_Handle.Instance = TIM2;
+	TIM_Handle.Init.Prescaler = 40000;		// TODO: there's probably a prettier way
+	TIM_Handle.Init.CounterMode = TIM_COUNTERMODE_UP;
+	TIM_Handle.Init.Period = 500;
+	TIM_Handle.Init.ClockDivision = TIM_CLOCKDIVISION_DIV1;
+	TIM_Handle.Init.RepetitionCounter = 0;
+
+    TIM_ClockConfigTypeDef clockSourceConfig;
+    clockSourceConfig.ClockSource = TIM_CLOCKSOURCE_INTERNAL;
+    clockSourceConfig.ClockPolarity = TIM_CLOCKPOLARITY_NONINVERTED;
+    clockSourceConfig.ClockPrescaler = TIM_CLOCKPRESCALER_DIV1;
+    HAL_TIM_ConfigClockSource(&TIM_Handle, &clockSourceConfig);
+
+	HAL_TIM_Base_Init(&TIM_Handle);
+
+	// start the timer
+	HAL_TIM_Base_Start_IT(&TIM_Handle);
 
     // allow timer interrupt
-    TIM_ITConfig(TIM2, TIM_IT_Update, ENABLE);
+	__HAL_TIM_ENABLE_IT(&TIM_Handle, TIM_IT_UPDATE);
 }
 
 /**
@@ -53,44 +60,27 @@ void InitializeTimer()
  */
 void EnableTimerInterrupt()
 {
-    NVIC_InitTypeDef nvicStructure;
-    nvicStructure.NVIC_IRQChannel = TIM2_IRQn;
-    nvicStructure.NVIC_IRQChannelPreemptionPriority = 0;
-    nvicStructure.NVIC_IRQChannelSubPriority = 1;
-    nvicStructure.NVIC_IRQChannelCmd = ENABLE;
-    NVIC_Init(&nvicStructure);
+	HAL_NVIC_SetPriority(TIM2_IRQn, 0, 1);
+	HAL_NVIC_EnableIRQ(TIM2_IRQn);
 }
 
 /**
  * @brief Configures the PA8 pin to follow the system clock (or system clock input).
  */
 void InitializeMCOGPIO() {
-	RCC_AHBPeriphClockCmd(RCC_AHBPeriph_GPIOA, ENABLE);
+	__GPIOA_CLK_ENABLE();
 
 	/* Configure MCO (PA8) */
 	GPIO_InitTypeDef gpioStructure;
-	gpioStructure.GPIO_Pin = GPIO_Pin_8;
-	gpioStructure.GPIO_Speed = GPIO_Speed_50MHz;
-	gpioStructure.GPIO_Mode = GPIO_Mode_AF;
-	gpioStructure.GPIO_OType = GPIO_OType_PP;
-	gpioStructure.GPIO_PuPd = GPIO_PuPd_NOPULL ;
-	GPIO_Init(GPIOA, &gpioStructure);
+	gpioStructure.Pin = GPIO_PIN_8;
+	gpioStructure.Speed = GPIO_SPEED_HIGH;
+	gpioStructure.Mode = GPIO_MODE_AF_PP;
+	gpioStructure.Pull = GPIO_NOPULL;
+	gpioStructure.Alternate = GPIO_AF0_MCO;
+	HAL_GPIO_Init(GPIOA, &gpioStructure);
 
 	/* Output HSE clock on MCO pin (PA8) */
-	RCC_MCOConfig(RCC_MCOSource_HSE);
-}
-
-/**
-* @brief  Toggles the specified GPIO pins.
-* @param  GPIOx: where x can be (A..I) to select the GPIO peripheral.
-* @param  GPIO_Pin: Specifies the pins to be toggled.
-*/
-void GPIO_ToggleBits(GPIO_TypeDef* GPIOx, uint16_t GPIO_Pin)
-{
-    /* Check the parameters */
-    assert_param(IS_GPIO_ALL_PERIPH(GPIOx));
-
-    GPIOx->ODR ^= GPIO_Pin;
+	HAL_RCC_MCOConfig(RCC_MCO, RCC_MCOSOURCE_HSE, RCC_MCO_NODIV);
 }
 
 volatile uint32_t clockSpeed = 0;
@@ -124,9 +114,9 @@ extern "C" void TIM2_IRQHandler()
 {
     // check the interrupt status;
     // if the interrupt is SET, toggle the LED
-    if (TIM_GetITStatus(TIM2, TIM_IT_Update) != RESET)
+    if (__HAL_TIM_GET_FLAG(&TIM_Handle, TIM_IT_UPDATE) != RESET)
     {
-        TIM_ClearITPendingBit(TIM2, TIM_IT_Update);
-        GPIO_ToggleBits(GPIOE, GPIO_Pin_8);
+    	__HAL_TIM_CLEAR_FLAG(&TIM_Handle, TIM_IT_UPDATE);
+        HAL_GPIO_TogglePin(GPIOE, GPIO_PIN_8);
     }
 }
