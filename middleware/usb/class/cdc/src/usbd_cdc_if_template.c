@@ -72,7 +72,7 @@ static int8_t TEMPLATE_DeInit   (void);
 static int8_t TEMPLATE_Control  (uint8_t cmd, uint8_t* pbuf, uint16_t length);
 static int8_t TEMPLATE_Receive  (uint8_t* pbuf, uint32_t *Len);
 
-USBD_CDC_ItfTypeDef USBD_CDC_Template_fops = 
+USBD_CDC_ItfTypeDef USBD_CDC_Template_fops =
 {
   TEMPLATE_Init,
   TEMPLATE_DeInit,

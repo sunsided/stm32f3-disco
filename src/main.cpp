@@ -1,5 +1,10 @@
 #include "main.h"
 
+extern "C" {
+	USBD_HandleTypeDef hUSBDDevice;
+}
+
+
 /**
  * @brief Initializes the LEDs.
  *
@@ -96,6 +101,18 @@ int main(__attribute__((unused)) int argc, __attribute__((unused)) char* argv[])
     InitializeTimer();
     EnableTimerInterrupt();
     InitializeMCOGPIO();
+
+    /* Init Device Library */
+	USBD_Init(&hUSBDDevice, &VCP_Desc, 0);
+
+	/* Add Supported Class */
+	USBD_RegisterClass(&hUSBDDevice, &USBD_CDC);
+
+	/* Add CDC Interface Class */
+	USBD_CDC_RegisterInterface(&hUSBDDevice, &USBD_CDC_fops);
+
+	/* Start Device Process */
+	USBD_Start(&hUSBDDevice);
 
     for (;;)
     {
