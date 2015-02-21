@@ -11,14 +11,13 @@ void InitializeLEDs()
     __GPIOE_CLK_ENABLE();
 
     GPIO_InitTypeDef gpioStructure;
-    gpioStructure.GPIO_Pin = GPIO_Pin_8;
-    gpioStructure.GPIO_Mode = GPIO_Mode_OUT;
-    gpioStructure.GPIO_OType = GPIO_OType_PP;
-    gpioStructure.GPIO_PuPd = GPIO_PuPd_UP;
-    gpioStructure.GPIO_Speed = GPIO_Speed_50MHz;
-    GPIO_Init(GPIOE, &gpioStructure);
+    gpioStructure.Pin = GPIO_PIN_8;
+    gpioStructure.Mode = GPIO_MODE_OUTPUT_PP;
+    gpioStructure.Pull = GPIO_PULLUP;
+    gpioStructure.Speed = GPIO_SPEED_HIGH;
+    HAL_GPIO_Init(GPIOE, &gpioStructure);
 
-    GPIO_WriteBit(GPIOE, GPIO_Pin_8, Bit_RESET);
+    HAL_GPIO_WritePin(GPIOE, GPIO_PIN_8, GPIO_PIN_RESET);
 }
 
 /**
@@ -66,28 +65,14 @@ void InitializeMCOGPIO() {
 
 	/* Configure MCO (PA8) */
 	GPIO_InitTypeDef gpioStructure;
-	gpioStructure.GPIO_Pin = GPIO_Pin_8;
-	gpioStructure.GPIO_Speed = GPIO_Speed_50MHz;
-	gpioStructure.GPIO_Mode = GPIO_Mode_AF;
-	gpioStructure.GPIO_OType = GPIO_OType_PP;
-	gpioStructure.GPIO_PuPd = GPIO_PuPd_NOPULL ;
-	GPIO_Init(GPIOA, &gpioStructure);
+	gpioStructure.Pin = GPIO_PIN_8;
+	gpioStructure.Speed = GPIO_SPEED_HIGH;
+	gpioStructure.Mode = GPIO_MODE_AF_PP;
+	gpioStructure.Pull = GPIO_NOPULL;
+	HAL_GPIO_Init(GPIOA, &gpioStructure);
 
 	/* Output HSE clock on MCO pin (PA8) */
 	RCC_MCOConfig(RCC_MCOSource_HSE);
-}
-
-/**
-* @brief  Toggles the specified GPIO pins.
-* @param  GPIOx: where x can be (A..I) to select the GPIO peripheral.
-* @param  GPIO_Pin: Specifies the pins to be toggled.
-*/
-void GPIO_ToggleBits(GPIO_TypeDef* GPIOx, uint16_t GPIO_Pin)
-{
-    /* Check the parameters */
-    assert_param(IS_GPIO_ALL_PERIPH(GPIOx));
-
-    GPIOx->ODR ^= GPIO_Pin;
 }
 
 volatile uint32_t clockSpeed = 0;
@@ -124,6 +109,6 @@ extern "C" void TIM2_IRQHandler()
     if (TIM_GetITStatus(TIM2, TIM_IT_Update) != RESET)
     {
         TIM_ClearITPendingBit(TIM2, TIM_IT_Update);
-        GPIO_ToggleBits(GPIOE, GPIO_Pin_8);
+        HAL_GPIO_TogglePin(GPIOE, GPIO_PIN_8);
     }
 }
