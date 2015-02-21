@@ -100,6 +100,7 @@
   */
 
 #include "stm32f30x.h"
+#include "stm32f30x_rcc.h"
 
 /**
   * @}
@@ -162,29 +163,7 @@ void SystemInit(void)
   #endif
 
   /* Reset the RCC clock configuration to the default reset state ------------*/
-  /* Set HSION bit */
-  RCC->CR |= (uint32_t)0x00000001;
-
-  /* Reset CFGR register */
-  RCC->CFGR &= 0xF87FC00C;
-
-  /* Reset HSEON, CSSON and PLLON bits */
-  RCC->CR &= (uint32_t)0xFEF6FFFF;
-
-  /* Reset HSEBYP bit */
-  RCC->CR &= (uint32_t)0xFFFBFFFF;
-
-  /* Reset PLLSRC, PLLXTPRE, PLLMUL and USBPRE bits */
-  RCC->CFGR &= (uint32_t)0xFF80FFFF;
-
-  /* Reset PREDIV1[3:0] bits */
-  RCC->CFGR2 &= (uint32_t)0xFFFFFFF0;
-
-  /* Reset USARTSW[1:0], I2CSW and TIMs bits */
-  RCC->CFGR3 &= (uint32_t)0xFF00FCCC;
-
-  /* Disable all interrupts */
-  RCC->CIR = 0x00000000;
+    RCC_DeInit();
 
   /* Configure the System clock source, PLL Multiplier and Divider factors,
      AHB/APBx prescalers and Flash settings ----------------------------------*/
@@ -294,26 +273,12 @@ static void SetSysClock(void)
 /******************************************************************************/
 
   /* SYSCLK, HCLK, PCLK2 and PCLK1 configuration -----------*/
-  /* Enable HSE */
-  RCC->CR |= ((uint32_t)RCC_CR_HSEON);
+  RCC_HSEConfig(RCC_HSE_ON);
 
   /* Wait till HSE is ready and if Time out is reached exit */
-  do
-  {
-    HSEStatus = RCC->CR & RCC_CR_HSERDY;
-    StartUpCounter++;
-  } while((HSEStatus == 0) && (StartUpCounter != HSE_STARTUP_TIMEOUT));
+  auto status = RCC_WaitForHSEStartUp();
 
-  if ((RCC->CR & RCC_CR_HSERDY) != RESET)
-  {
-    HSEStatus = (uint32_t)0x01;
-  }
-  else
-  {
-    HSEStatus = (uint32_t)0x00;
-  }
-
-  if (HSEStatus == (uint32_t)0x01)
+  if (status == SUCCESS)
   {
     /* Enable Prefetch Buffer and set Flash Latency */
     FLASH->ACR = FLASH_ACR_PRFTBE | (uint32_t)FLASH_ACR_LATENCY_1;
