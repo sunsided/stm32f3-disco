@@ -40,6 +40,8 @@ void InitializeTimer()
 
     TIM_ClockConfigTypeDef clockSourceConfig;
     clockSourceConfig.ClockSource = TIM_CLOCKSOURCE_INTERNAL;
+    clockSourceConfig.ClockPolarity = TIM_CLOCKPOLARITY_NONINVERTED;
+    clockSourceConfig.ClockPrescaler = TIM_CLOCKPRESCALER_DIV1;
     HAL_TIM_ConfigClockSource(&TIM_Handle, &clockSourceConfig);
 
 	HAL_TIM_Base_Init(&TIM_Handle);
@@ -74,6 +76,7 @@ void InitializeMCOGPIO() {
 	gpioStructure.Speed = GPIO_SPEED_HIGH;
 	gpioStructure.Mode = GPIO_MODE_AF_PP;
 	gpioStructure.Pull = GPIO_NOPULL;
+	gpioStructure.Alternate = GPIO_AF0_MCO;
 	HAL_GPIO_Init(GPIOA, &gpioStructure);
 
 	/* Output HSE clock on MCO pin (PA8) */
