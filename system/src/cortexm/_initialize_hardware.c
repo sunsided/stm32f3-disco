@@ -6,32 +6,37 @@
 // ----------------------------------------------------------------------------
 
 #include "stm32f3xx.h"
-#include "_system_clock.h"
+
+// ----------------------------------------------------------------------------
+
+extern void SystemClock_Config(void);
 
 // ----------------------------------------------------------------------------
 
 // Forward declarations.
 
-void
-__initialize_hardware_early(void);
-
-void
-__initialize_hardware(void);
+void __initialize_hardware_early(void);
+void __initialize_hardware(void);
 
 // ----------------------------------------------------------------------------
 
-// This is the early hardware initialisation routine, it can be
-// redefined in the application for more complex cases that
-// require early inits (before BSS init).
-//
-// Called early from _start(), right before data & bss init.
-//
-// After Reset the Cortex-M processor is in Thread mode,
-// priority is Privileged, and the Stack is set to Main.
-
-void
-__attribute__((weak))
-__initialize_hardware_early(void)
+/**
+* @brief Early hardware initialisation routine.
+*
+* This is the early hardware initialisation routine, it can be
+* redefined in the application for more complex cases that
+* require early inits (before BSS init).
+*
+* Called early from _start(), right before data & bss init.
+*
+* After Reset the Cortex-M processor is in Thread mode,
+* priority is Privileged, and the Stack is set to Main.
+*
+* @callergraph
+* @callgraph
+* @see __initialize_hardware()
+*/
+void __attribute__((weak)) __initialize_hardware_early(void)
 {
   // Call the CSMSIS system initialisation routine.
   SystemInit();
@@ -56,17 +61,22 @@ __initialize_hardware_early(void)
 #endif // (__VFP_FP__) && !(__SOFTFP__)
 }
 
-// This is the second hardware initialisation routine, it can be
-// redefined in the application for more complex cases that
-// require custom inits (before constructors), otherwise these can
-// be done in main().
-//
-// Called from _start(), right after data & bss init, before
-// constructors.
-
-void
-__attribute__((weak))
-__initialize_hardware(void)
+/**
+ * @brief The second hardware initialization routine.
+ *
+ * This is the second hardware initialisation routine, it can be
+ * redefined in the application for more complex cases that
+ * require custom inits (before constructors), otherwise these can
+ * be done in main().
+ *
+ * Called from _start(), right after data & bss init, before
+ * constructors.
+ *
+ * @callergraph
+ * @callgraph
+ * @see __initialize_hardware_early()
+ */
+void __attribute__((weak)) __initialize_hardware(void)
 {
   /* STM32F3xx HAL library initialization:
 	   - Configure the Flash prefetch

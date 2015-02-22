@@ -78,7 +78,8 @@ void EnableTimerInterrupt()
 /**
  * @brief Configures the PA8 pin to follow the system clock (or system clock input).
  */
-void InitializeMCOGPIO() {
+void InitializeMCOGPIO()
+{
 	__GPIOA_CLK_ENABLE();
 
 	/* Configure MCO (PA8) */
