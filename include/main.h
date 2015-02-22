@@ -5,8 +5,15 @@
 #include <stm32f3xx.h>
 #include <stm32f3xx_hal.h>
 
-#include "usbd_desc.h"
-#include "usbd_hid.h"
+#ifdef __cplusplus
+extern "C" {
+#endif
+	#include "usbd_desc.h"
+	#include <usbd_hid.h>
+#ifdef __cplusplus
+}
+#endif
+
 
 /* It is possible to remap the USB interrupts (USB_LP and USB_WKUP) on interrupt 
    lines 75 and 76.
