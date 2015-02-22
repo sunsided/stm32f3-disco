@@ -54,7 +54,7 @@
 									<listOptionValue builtIn="false" value="../system/include/stm32f3-hal"/>
 									<listOptionValue builtIn="false" value="../system/include/cortexm"/>
 									<listOptionValue builtIn="false" value="../middleware/usb/core/include"/>
-									<listOptionValue builtIn="false" value="../middleware/usb/class/cdc/include"/>
+									<listOptionValue builtIn="false" value="../middleware/usb/class/hid/include"/>
 								</option>
 								<option id="ilg.gnuarmeclipse.managedbuild.cross.option.assembler.defs.1931179969" name="Defined symbols (-D)" superClass="ilg.gnuarmeclipse.managedbuild.cross.option.assembler.defs" valueType="definedSymbols">
 									<listOptionValue builtIn="false" value="DEBUG"/>
@@ -73,7 +73,7 @@
 									<listOptionValue builtIn="false" value="../system/include/stm32f3-hal"/>
 									<listOptionValue builtIn="false" value="../system/include/cortexm"/>
 									<listOptionValue builtIn="false" value="../middleware/usb/core/include"/>
-									<listOptionValue builtIn="false" value="../middleware/usb/class/cdc/include"/>
+									<listOptionValue builtIn="false" value="../middleware/usb/class/hid/include"/>
 								</option>
 								<option id="ilg.gnuarmeclipse.managedbuild.cross.option.c.compiler.defs.1992481377" name="Defined symbols (-D)" superClass="ilg.gnuarmeclipse.managedbuild.cross.option.c.compiler.defs" useByScannerDiscovery="false" valueType="definedSymbols">
 									<listOptionValue builtIn="false" value="DEBUG"/>
@@ -92,7 +92,7 @@
 									<listOptionValue builtIn="false" value="../system/include/stm32f3-hal"/>
 									<listOptionValue builtIn="false" value="../system/include/cortexm"/>
 									<listOptionValue builtIn="false" value="../middleware/usb/core/include"/>
-									<listOptionValue builtIn="false" value="../middleware/usb/class/cdc/include"/>
+									<listOptionValue builtIn="false" value="../middleware/usb/class/hid/include"/>
 								</option>
 								<option id="ilg.gnuarmeclipse.managedbuild.cross.option.cpp.compiler.noexceptions.685458953" name="Do not use exceptions (-fno-exceptions)" superClass="ilg.gnuarmeclipse.managedbuild.cross.option.cpp.compiler.noexceptions" useByScannerDiscovery="true" value="true" valueType="boolean"/>
 								<option id="ilg.gnuarmeclipse.managedbuild.cross.option.cpp.compiler.nortti.1892278421" name="Do not use RTTI (-fno-rtti)" superClass="ilg.gnuarmeclipse.managedbuild.cross.option.cpp.compiler.nortti" useByScannerDiscovery="true" value="true" valueType="boolean"/>
@@ -169,8 +169,7 @@
 						</tool>
 					</fileInfo>
 					<sourceEntries>
-						<entry flags="VALUE_WORKSPACE_PATH" kind="sourcePath" name="middleware/usb/class/cdc/src"/>
-						<entry flags="VALUE_WORKSPACE_PATH" kind="sourcePath" name="middleware/usb/core/src"/>
+						<entry flags="VALUE_WORKSPACE_PATH" kind="sourcePath" name="middleware/usb"/>
 						<entry flags="VALUE_WORKSPACE_PATH|RESOLVED" kind="sourcePath" name="src"/>
 						<entry flags="VALUE_WORKSPACE_PATH" kind="sourcePath" name="system"/>
 					</sourceEntries>
@@ -252,7 +251,7 @@
 									<listOptionValue builtIn="false" value="../system/include/stm32f3-hal"/>
 									<listOptionValue builtIn="false" value="../system/include/cortexm"/>
 									<listOptionValue builtIn="false" value="../middleware/usb/core/include"/>
-									<listOptionValue builtIn="false" value="../middleware/usb/class/cdc/include"/>
+									<listOptionValue builtIn="false" value="../middleware/usb/class/hid/include"/>
 								</option>
 								<option id="ilg.gnuarmeclipse.managedbuild.cross.option.assembler.defs.1327563222" name="Defined symbols (-D)" superClass="ilg.gnuarmeclipse.managedbuild.cross.option.assembler.defs" valueType="definedSymbols">
 									<listOptionValue builtIn="false" value="USE_STDPERIPH_DRIVER"/>
@@ -269,7 +268,7 @@
 									<listOptionValue builtIn="false" value="../system/include/stm32f3-hal"/>
 									<listOptionValue builtIn="false" value="../system/include/cortexm"/>
 									<listOptionValue builtIn="false" value="../middleware/usb/core/include"/>
-									<listOptionValue builtIn="false" value="../middleware/usb/class/cdc/include"/>
+									<listOptionValue builtIn="false" value="../middleware/usb/class/hid/include"/>
 								</option>
 								<option id="ilg.gnuarmeclipse.managedbuild.cross.option.c.compiler.defs.116169432" name="Defined symbols (-D)" superClass="ilg.gnuarmeclipse.managedbuild.cross.option.c.compiler.defs" useByScannerDiscovery="false" valueType="definedSymbols">
 									<listOptionValue builtIn="false" value="USE_STDPERIPH_DRIVER"/>
@@ -286,7 +285,7 @@
 									<listOptionValue builtIn="false" value="../system/include/stm32f3-hal"/>
 									<listOptionValue builtIn="false" value="../system/include/cortexm"/>
 									<listOptionValue builtIn="false" value="../middleware/usb/core/include"/>
-									<listOptionValue builtIn="false" value="../middleware/usb/class/cdc/include"/>
+									<listOptionValue builtIn="false" value="../middleware/usb/class/hid/include"/>
 								</option>
 								<option id="ilg.gnuarmeclipse.managedbuild.cross.option.cpp.compiler.noexceptions.1378134704" name="Do not use exceptions (-fno-exceptions)" superClass="ilg.gnuarmeclipse.managedbuild.cross.option.cpp.compiler.noexceptions" useByScannerDiscovery="true" value="true" valueType="boolean"/>
 								<option id="ilg.gnuarmeclipse.managedbuild.cross.option.cpp.compiler.nortti.1201539325" name="Do not use RTTI (-fno-rtti)" superClass="ilg.gnuarmeclipse.managedbuild.cross.option.cpp.compiler.nortti" useByScannerDiscovery="true" value="true" valueType="boolean"/>
@@ -355,8 +354,7 @@
 						</tool>
 					</fileInfo>
 					<sourceEntries>
-						<entry flags="VALUE_WORKSPACE_PATH" kind="sourcePath" name="middleware/usb/class/cdc/src"/>
-						<entry flags="VALUE_WORKSPACE_PATH" kind="sourcePath" name="middleware/usb/core/src"/>
+						<entry excluding="class/cdc/src|core/src" flags="VALUE_WORKSPACE_PATH" kind="sourcePath" name="middleware/usb"/>
 						<entry flags="VALUE_WORKSPACE_PATH|RESOLVED" kind="sourcePath" name="src"/>
 						<entry excluding="src/stm32f3-stdperiph/stm32f30x_adc.c|src/stm32f3-stdperiph/stm32f30x_can.c|src/stm32f3-stdperiph/stm32f30x_comp.c|src/stm32f3-stdperiph/stm32f30x_crc.c|src/stm32f3-stdperiph/stm32f30x_dac.c|src/stm32f3-stdperiph/stm32f30x_dbgmcu.c|src/stm32f3-stdperiph/stm32f30x_dma.c|src/stm32f3-stdperiph/stm32f30x_exti.c|src/stm32f3-stdperiph/stm32f30x_flash.c|src/stm32f3-stdperiph/stm32f30x_i2c.c|src/stm32f3-stdperiph/stm32f30x_iwdg.c|src/stm32f3-stdperiph/stm32f30x_misc.c|src/stm32f3-stdperiph/stm32f30x_opamp.c|src/stm32f3-stdperiph/stm32f30x_pwr.c|src/stm32f3-stdperiph/stm32f30x_rtc.c|src/stm32f3-stdperiph/stm32f30x_spi.c|src/stm32f3-stdperiph/stm32f30x_syscfg.c|src/stm32f3-stdperiph/stm32f30x_tim.c|src/stm32f3-stdperiph/stm32f30x_usart.c|src/stm32f3-stdperiph/stm32f30x_wwdg.c" flags="VALUE_WORKSPACE_PATH|RESOLVED" kind="sourcePath" name="system"/>
 					</sourceEntries>
