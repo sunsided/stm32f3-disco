@@ -245,7 +245,7 @@ extern "C" void PendSV_Handler(void)
   * @retval None
   */
 #if defined (USE_USB_INTERRUPT_DEFAULT)
-extern "C" void USB_LP_CAN_RX0_IRQHandler(void)
+extern "C" void USB_LP_CAN1_RX0_IRQHandler(void)
 #elif defined (USE_USB_INTERRUPT_REMAPPED)
 extern "C" void USB_LP_IRQHandler(void)
 #endif
