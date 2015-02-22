@@ -228,13 +228,13 @@ __ALIGN_BEGIN static uint8_t HID_MOUSE_ReportDesc[HID_MOUSE_REPORT_DESC_SIZE]  _
   
   0x15,   0x00, //			LOGICAL_MINIMUM (0)
   0x25,   0x01, //			LOGICAL_MAXIMUM (1)
-  0x95,   0x03,	//			REPORT_COUNT (3)
-  0x75,   0x01,	//			REPORT_SIZE (1)
+  0x95,   0x03,	//			REPORT_COUNT (3)        - three report entries (one for each button)
+  0x75,   0x01,	//			REPORT_SIZE (1)         - one bit for each button
   
-  0x81,   0x02,	//			INPUT (Data,Var,Abs)
-  0x95,   0x01,	//			REPORT_COUNT (1)
-  0x75,   0x05,	//			REPORT_SIZE (5)
-  0x81,   0x01,	//			INPUT (Cnst,Ary,Abs)
+  0x81,   0x02,	//			INPUT (Data,Var,Abs)    - (3x1 bit) button data are variable and absolute
+  0x95,   0x01,	//			REPORT_COUNT (1)        - one padding entry
+  0x75,   0x05,	//			REPORT_SIZE (5)         - five bits in the padding entry
+  0x81,   0x01,	//			INPUT (Cnst,Ary,Abs)    - (1x5 bit) padding data is a constant array and absolute
   
   0x05,   0x01,	//			USAGE_PAGE (Generic Desktop)
   0x09,   0x30,	//			USAGE (X)
@@ -243,25 +243,25 @@ __ALIGN_BEGIN static uint8_t HID_MOUSE_ReportDesc[HID_MOUSE_REPORT_DESC_SIZE]  _
   
   0x15,   0x81,	//			LOGICAL_MINIMUM (-127)
   0x25,   0x7F,	//			LOGICAL_MAXIMUM (127)
-  0x75,   0x08,	//			REPORT_SIZE (8)
-  0x95,   0x03,	//			REPORT_COUNT (3)
+  0x75,   0x08,	//			REPORT_SIZE (8)         - eight bits for each report
+  0x95,   0x03,	//			REPORT_COUNT (3)        - three reports total (one for each axis)
   
-  0x81,   0x06,	//			INPUT (Data,Var,Rel)
+  0x81,   0x06,	//			INPUT (Data,Var,Rel)    - (3x8 bit) axis data is variable and relative
   0xC0,			//		END_COLLECTION
   0x09,   0x3c,	//		USAGE (Motion Wakeup)
-  0x05,	  0xff,	//		USAGE_PAGE (Vendor Defined)
+  0x05,	  0xff,	//		USAGE_PAGE (Vendor Defined Page 1)
   
-  0x09,   0x01,	//		USAGE (?)
+  0x09,   0x01,	//		USAGE (Vendor Usage 1)
   0x15,   0x00, //		LOGICAL_MINIMUM (0)
   0x25,   0x01, //		LOGICAL_MAXIMUM (1)
-  0x75,   0x01, //		REPORT_SIZE (1)
+  0x75,   0x01, //		REPORT_SIZE (1)             - one bit feature descriptor
 
-  0x95,   0x02, //		REPORT_COUNT (2)
-  0xb1,   0x22, //		FEATURE (Var,No Preferred)
-  0x75,   0x06, //		REPORT_SIZE (6)
-  0x95,   0x01, //		REPORT_COUNT (1)
+  0x95,   0x02, //		REPORT_COUNT (2)            - two times
+  0xb1,   0x22, //		FEATURE (Data,Var,Abs,No Preferred)
+  0x75,   0x06, //		REPORT_SIZE (6)             - six bit feature descriptor
+  0x95,   0x01, //		REPORT_COUNT (1)            - one time
 
-  0xb1,   0x01, //		FEATURE (Cnst)
+  0xb1,   0x01, //		FEATURE (Cnst,Ary,Abs)      - and constant
   0xc0			//	END_COLLECTION
 }; 
 

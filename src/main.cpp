@@ -118,9 +118,13 @@ int main(__attribute__((unused)) int argc, __attribute__((unused)) char* argv[])
 
     	uint8_t HID_Buffer[4];
 
-    	HID_Buffer[0] = 0;
+    	// 5 padding bits (7:3) and 3 button bits (2:0, 0 being left button)
+    	HID_Buffer[0] = 0b00000001;
+    	// X axis
     	HID_Buffer[1] = (int8_t)-5;
+    	// Y axis, screen origin is top left, so positive means down
     	HID_Buffer[2] = (int8_t)5;
+    	// wheel
     	HID_Buffer[3] = 0;
 
     	USBD_HID_SendReport(&USBD_Device, HID_Buffer, 4);
