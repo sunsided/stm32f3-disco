@@ -1,6 +1,7 @@
 #include "main.h"
 
 extern "C" {
+	extern PCD_HandleTypeDef hpcd;
 	USBD_HandleTypeDef hUSBDDevice;
 
 	/* TIM handler declared in "usbd_cdc_interface.c" file */
@@ -250,7 +251,7 @@ extern "C" void USB_LP_CAN1_RX0_IRQHandler(void)
 extern "C" void USB_LP_IRQHandler(void)
 #endif
 {
-  // HAL_PCD_IRQHandler(&hpcd);
+	HAL_PCD_IRQHandler(&hpcd);
 }
 
 /**
