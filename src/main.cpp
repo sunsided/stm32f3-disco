@@ -95,8 +95,6 @@ void InitializeMCOGPIO()
 	HAL_RCC_MCOConfig(RCC_MCO, RCC_MCOSOURCE_HSE, RCC_MCO_NODIV);
 }
 
-volatile uint32_t clockSpeed = 0;
-
 /**
  * @brief Main entry point.
  * @param argc argument count when semihosting
@@ -124,7 +122,6 @@ int main(__attribute__((unused)) int argc, __attribute__((unused)) char* argv[])
 
     for (;;)
     {
-    	clockSpeed = SystemCoreClock;
     }
 
 	// yup
