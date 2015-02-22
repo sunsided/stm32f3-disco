@@ -114,6 +114,16 @@ int main(__attribute__((unused)) int argc, __attribute__((unused)) char* argv[])
 
     for (;;)
     {
+    	HAL_Delay(50);
+
+    	uint8_t HID_Buffer[4];
+
+    	HID_Buffer[0] = 0;
+    	HID_Buffer[1] = (int8_t)-5;
+    	HID_Buffer[2] = (int8_t)5;
+    	HID_Buffer[3] = 0;
+
+    	USBD_HID_SendReport(&USBD_Device, HID_Buffer, 4);
     }
 
 	// yup
