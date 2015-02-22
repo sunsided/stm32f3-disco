@@ -4,8 +4,7 @@
  * @date   22.02.2015
  */
 
-#include <stm32f3xx_hal_rcc.h>
-#include <stm32f3xx_hal_flash.h>
+#include "stm32f3xx.h"
 #include "error_handler.h"
 
 /** \addtogroup system_init
