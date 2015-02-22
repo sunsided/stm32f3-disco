@@ -112,18 +112,54 @@ int main(__attribute__((unused)) int argc, __attribute__((unused)) char* argv[])
     /* Start Device Process */
     USBD_Start(&USBD_Device);
 
+    /* moving in Manhattan circles */
+    const uint8_t stepWidth = 3;
+    const uint8_t segmentLength = 40;
+    uint8_t position = 0;
+    int8_t x_increment = 0, y_increment = 0;
+
     for (;;)
     {
-    	HAL_Delay(50);
+    	HAL_Delay(25);
 
+    	/* advance the position state */
+    	++position;
+    	if (position >= 4*segmentLength)
+    	{
+    		position = 0;
+    	}
+
+    	/* translate position to pointer movement */
+    	if (position >= 3*segmentLength)
+		{
+			x_increment = +stepWidth;
+			y_increment = -stepWidth;
+		}
+    	else if (position >= 2*segmentLength)
+		{
+			x_increment = -stepWidth;
+			y_increment = -stepWidth;
+		}
+		else if (position >= 1*segmentLength)
+		{
+			x_increment = -stepWidth;
+			y_increment = +stepWidth;
+		}
+    	else // if (position >= 0*segmentLength)
+    	{
+    		x_increment = +stepWidth;
+    		y_increment = +stepWidth;
+    	}
+
+    	/* now move the pointer */
     	uint8_t HID_Buffer[4];
 
     	// 5 padding bits (7:3) and 3 button bits (2:0, 0 being left button)
-    	HID_Buffer[0] = 0b00000001;
+    	HID_Buffer[0] = 0;
     	// X axis
-    	HID_Buffer[1] = (int8_t)-5;
+    	HID_Buffer[1] = x_increment;
     	// Y axis, screen origin is top left, so positive means down
-    	HID_Buffer[2] = (int8_t)5;
+    	HID_Buffer[2] = y_increment;
     	// wheel
     	HID_Buffer[3] = 0;
 
