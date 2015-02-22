@@ -2,6 +2,9 @@
 
 extern "C" {
 	USBD_HandleTypeDef hUSBDDevice;
+
+	/* TIM handler declared in "usbd_cdc_interface.c" file */
+	extern TIM_HandleTypeDef TimHandle;
 }
 
 
@@ -277,5 +280,5 @@ extern "C" void USARTx_IRQHandler(void)
   */
 extern "C" void TIMx_IRQHandler(void)
 {
-  // HAL_TIM_IRQHandler(&TimHandle);
+	HAL_TIM_IRQHandler(&TimHandle);
 }
