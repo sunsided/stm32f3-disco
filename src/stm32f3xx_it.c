@@ -40,8 +40,26 @@
 /* Private macro -------------------------------------------------------------*/
 /* Private variables ---------------------------------------------------------*/
 extern PCD_HandleTypeDef hpcd;
+extern TIM_HandleTypeDef TIM_Handle;
 /* Private function prototypes -----------------------------------------------*/
 
+/******************************************************************************/
+/*             Custom stuff                                                   */
+/******************************************************************************/
+
+/**
+ * @brief TIM2 Timer Interrupt Handler
+ */
+void TIM2_IRQHandler()
+{
+    // check the interrupt status;
+    // if the interrupt is SET, toggle the LED
+    if (__HAL_TIM_GET_FLAG(&TIM_Handle, TIM_IT_UPDATE) != RESET)
+    {
+    	__HAL_TIM_CLEAR_FLAG(&TIM_Handle, TIM_IT_UPDATE);
+        HAL_GPIO_TogglePin(GPIOE, GPIO_PIN_8);
+    }
+}
 
 /******************************************************************************/
 /*             Cortex-M4 Processor Exceptions Handlers                         */
@@ -62,9 +80,9 @@ void NMI_Handler(void)
   */
 void HardFault_Handler(void)
 {
-  /* Go to infinite loop when Hard Fault exception occurs */
-  while (1)
-  {}
+	/* Go to infinite loop when Hard Fault exception occurs */
+	while (1)
+	{}
 }
 
 /**
@@ -74,9 +92,9 @@ void HardFault_Handler(void)
   */
 void MemManage_Handler(void)
 {
-  /* Go to infinite loop when Memory Manage exception occurs */
-  while (1)
-  {}
+	/* Go to infinite loop when Memory Manage exception occurs */
+	while (1)
+	{}
 }
 
 /**
@@ -86,9 +104,9 @@ void MemManage_Handler(void)
   */
 void BusFault_Handler(void)
 {
-  /* Go to infinite loop when Bus Fault exception occurs */
-  while (1)
-  {}
+	/* Go to infinite loop when Bus Fault exception occurs */
+	while (1)
+	{}
 }
 
 /**
@@ -98,9 +116,9 @@ void BusFault_Handler(void)
   */
 void UsageFault_Handler(void)
 {
-  /* Go to infinite loop when Usage Fault exception occurs */
-  while (1)
-  {}
+	/* Go to infinite loop when Usage Fault exception occurs */
+	while (1)
+	{}
 }
 
 /**
@@ -134,7 +152,7 @@ void PendSV_Handler(void)
   */
 void SysTick_Handler(void)
 {
-   HAL_IncTick();
+	HAL_IncTick();
 }
 
 /******************************************************************************/
@@ -155,7 +173,7 @@ void USB_LP_CAN_RX0_IRQHandler(void)
 void USB_LP_IRQHandler(void)
 #endif
 {
-  HAL_PCD_IRQHandler(&hpcd);
+	HAL_PCD_IRQHandler(&hpcd);
 }
 
 /**
@@ -169,7 +187,7 @@ void USBWakeUp_IRQHandler(void)
 void USBWakeUp_RMP_IRQHandler(void)
 #endif
 {
-  __HAL_USB_EXTI_CLEAR_FLAG();
+	__HAL_USB_EXTI_CLEAR_FLAG();
 }
 
 /**
