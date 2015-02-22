@@ -1,6 +1,7 @@
 #include "main.h"
 
 USBD_HandleTypeDef USBD_Device;
+TIM_HandleTypeDef TIM_Handle;
 
 /**
  * @brief Initializes the LEDs.
@@ -20,8 +21,6 @@ void InitializeLEDs()
 
     HAL_GPIO_WritePin(GPIOE, GPIO_PIN_8, GPIO_PIN_RESET);
 }
-
-TIM_HandleTypeDef TIM_Handle;
 
 /**
  * @brief Initializes the timer.
