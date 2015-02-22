@@ -2,14 +2,16 @@
 #ifndef __MAIN_H
 #define __MAIN_H
 
-#include <stm32f3xx.h>
-#include <stm32f3xx_hal.h>
-
 #ifdef __cplusplus
 extern "C" {
 #endif
+
+	#include <stm32f3xx.h>
+	#include <stm32f3xx_hal.h>
+
 	#include "usbd_desc.h"
 	#include <usbd_hid.h>
+
 #ifdef __cplusplus
 }
 #endif
