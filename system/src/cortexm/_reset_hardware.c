@@ -9,29 +9,28 @@
 
 // ----------------------------------------------------------------------------
 
-extern void
-__attribute__((noreturn))
-NVIC_SystemReset(void);
+extern void __attribute__((noreturn)) NVIC_SystemReset(void);
 
 // ----------------------------------------------------------------------------
 
 // Forward declarations
 
-void
-__reset_hardware(void);
+void __reset_hardware(void);
 
 // ----------------------------------------------------------------------------
 
-// This is the default hardware reset routine; it can be
-// redefined in the application for more complex applications.
-//
-// Called from _exit().
+/**
+ * @brief  This is the default hardware reset routine; it can be redefined in the application for more complex applications.
+ *
+ * Called from _exit().
+ *
+ * @callgraph
+ * @callergraph
+ */
 
-void
-__attribute__((weak,noreturn))
-__reset_hardware()
+void __attribute__((weak,noreturn)) __reset_hardware()
 {
-  NVIC_SystemReset();
+	NVIC_SystemReset();
 }
 
 // ----------------------------------------------------------------------------

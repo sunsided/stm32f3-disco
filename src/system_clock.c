@@ -1,9 +1,29 @@
-#include <_system_clock.h>
+/**
+ * @file   system_clock.c
+ * @author Markus
+ * @date   22.02.2015
+ */
+
 #include <stm32f3xx_hal_rcc.h>
 #include <stm32f3xx_hal_flash.h>
+#include "error_handler.h"
 
-/* Private function prototypes -----------------------------------------------*/
-static void Error_Handler(void);
+/** \addtogroup system_init
+ *  @{
+ */
+
+/**
+ * @brief Configures the USB clock
+ */
+static HAL_StatusTypeDef UsbClock_Config(void)
+{
+	RCC_PeriphCLKInitTypeDef  RCC_PeriphClkInit;
+
+	/* Configures the USB clock */
+	HAL_RCCEx_GetPeriphCLKConfig(&RCC_PeriphClkInit);
+	RCC_PeriphClkInit.USBClockSelection = RCC_USBPLLCLK_DIV1_5;
+	return HAL_RCCEx_PeriphCLKConfig(&RCC_PeriphClkInit);
+}
 
 /**
   * @brief  System Clock Configuration
@@ -38,6 +58,12 @@ void SystemClock_Config(void)
 		Error_Handler();
 	}
 
+	/* configure the USB clock */
+	if (UsbClock_Config() != HAL_OK)
+	{
+		Error_Handler();
+	}
+
 	/* Select PLL as system clock source and configure the HCLK, PCLK1 and PCLK2
 	 clocks dividers */
 	RCC_ClkInitStruct.ClockType = (RCC_CLOCKTYPE_SYSCLK | RCC_CLOCKTYPE_HCLK | RCC_CLOCKTYPE_PCLK1 | RCC_CLOCKTYPE_PCLK2);
@@ -51,15 +77,4 @@ void SystemClock_Config(void)
 	}
 }
 
-/**
-  * @brief  This function is executed in case of error occurrence.
-  * @param  None
-  * @retval None
-  */
-static void Error_Handler(void)
-{
-	while (1)
-	{
-		// TODO: do something sane here
-	}
-}
+/** @}*/

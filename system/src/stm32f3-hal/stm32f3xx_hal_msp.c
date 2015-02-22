@@ -74,7 +74,7 @@
   * @brief  Initializes the Global MSP.
   * @retval None
   */
-void HAL_MspInit(void)
+__weak void HAL_MspInit(void)
 {
   /* NOTE : This function is generated automatically by MicroXplorer and eventually  
             modified by the user
@@ -85,7 +85,7 @@ void HAL_MspInit(void)
   * @brief  DeInitializes the Global MSP.
   * @retval None
   */
-void HAL_MspDeInit(void)
+__weak void HAL_MspDeInit(void)
 {
   /* NOTE : This function is generated automatically by MicroXplorer and eventually  
             modified by the user
@@ -96,7 +96,7 @@ void HAL_MspDeInit(void)
   * @brief  Initializes the PPP MSP.
   * @retval None
   */
-void HAL_PPP_MspInit(void)
+__weak void HAL_PPP_MspInit(void)
 {
   /* NOTE : This function is generated automatically by MicroXplorer and eventually  
             modified by the user
@@ -107,7 +107,7 @@ void HAL_PPP_MspInit(void)
   * @brief  DeInitializes the PPP MSP.
   * @retval None
   */
-void HAL_PPP_MspDeInit(void)
+__weak void HAL_PPP_MspDeInit(void)
 {
   /* NOTE : This function is generated automatically by MicroXplorer and eventually  
             modified by the user

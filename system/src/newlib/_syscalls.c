@@ -22,17 +22,16 @@ int errno;
 #include <limits.h>
 #include <signal.h>
 
-void
-__initialize_args(int* p_argc, char*** p_argv);
+void __initialize_args(int* p_argc, char*** p_argv);
 
-// This is the standard default implementation for the routine to
-// process args. It returns a single empty arg.
-// For semihosting applications, this is redefined to get the real
-// args from the debugger. You can also use it if you decide to keep
-// some args in a non-volatile memory.
+/** This is the standard default implementation for the routine to
+ * process args. It returns a single empty arg.
+ * For semihosting applications, this is redefined to get the real
+ * args from the debugger. You can also use it if you decide to keep
+ * some args in a non-volatile memory.
+ */
 
-void __attribute__((weak))
-__initialize_args(int* p_argc, char*** p_argv)
+void __attribute__((weak)) __initialize_args(int* p_argc, char*** p_argv)
 {
   // By the time we reach this, the data and bss should have been initialised.
 
@@ -45,36 +44,33 @@ __initialize_args(int* p_argc, char*** p_argv)
   // argv[0][0] shall be the null character if the program name is not
   // available from the host environment. argv[argc] shall be a null pointer.
   // (static, no const)
-  static char* argv[2] =
-    { name, NULL };
+  static char* argv[2] = { name, NULL };
 
   *p_argc = 1;
   *p_argv = &argv[0];
   return;
 }
 
-// These functions are defined here to avoid linker errors in freestanding
-// applications. They might be called in some error cases from library
-// code.
-//
-// If you detect other functions to be needed, just let us know
-// and we'll add them.
-
-int
-raise(int sig __attribute__((unused)))
+/**
+ * These functions are defined here to avoid linker errors in freestanding
+ * applications. They might be called in some error cases from library
+ * code.
+ *
+ * If you detect other functions to be needed, just let us know
+ * and we'll add them.
+ */
+int raise(int sig __attribute__((unused)))
 {
-  errno = ENOSYS;
-  return -1;
+	errno = ENOSYS;
+	return -1;
 }
 
-int
-kill(pid_t pid, int sig);
+int kill(pid_t pid, int sig);
 
-int
-kill(pid_t pid __attribute__((unused)), int sig __attribute__((unused)))
+int kill(pid_t pid __attribute__((unused)), int sig __attribute__((unused)))
 {
-  errno = ENOSYS;
-  return -1;
+	errno = ENOSYS;
+	return -1;
 }
 
 #endif // !defined(OS_USE_SEMIHOSTING)
@@ -85,226 +81,154 @@ kill(pid_t pid __attribute__((unused)), int sig __attribute__((unused)))
 
 #if __STDC_HOSTED__ == 1
 
-char* __env[1] =
-  { 0 };
+char* __env[1] = { 0 };
 char** environ = __env;
 
 #if !defined(OS_USE_SEMIHOSTING)
 
 // Forward declarations
 
-int
-_chown(const char* path, uid_t owner, gid_t group);
-
-int
-_close(int fildes);
-
-int
-_execve(char* name, char** argv, char** env);
-
-int
-_fork(void);
-
-int
-_fstat(int fildes, struct stat* st);
-
-int
-_getpid(void);
-
-int
-_gettimeofday(struct timeval* ptimeval, void* ptimezone);
-
-int
-_isatty(int file);
-
-int
-_kill(int pid, int sig);
-
-int
-_link(char* existing, char* _new);
-
-int
-_lseek(int file, int ptr, int dir);
-
-int
-_open(char* file, int flags, int mode);
-
-int
-_read(int file, char* ptr, int len);
-
-int
-_readlink(const char* path, char* buf, size_t bufsize);
-
-int
-_stat(const char* file, struct stat* st);
-
-int
-_symlink(const char* path1, const char* path2);
-
-clock_t
-_times(struct tms* buf);
-
-int
-_unlink(char* name);
-
-int
-_wait(int* status);
-
-int
-_write(int file, char* ptr, int len);
+int _chown(const char* path, uid_t owner, gid_t group);
+int _close(int fildes);
+int _execve(char* name, char** argv, char** env);
+int _fork(void);
+int _fstat(int fildes, struct stat* st);
+int _getpid(void);
+int _gettimeofday(struct timeval* ptimeval, void* ptimezone);
+int _isatty(int file);
+int _kill(int pid, int sig);
+int _link(char* existing, char* _new);
+int _lseek(int file, int ptr, int dir);
+int _open(char* file, int flags, int mode);
+int _read(int file, char* ptr, int len);
+int _readlink(const char* path, char* buf, size_t bufsize);
+int _stat(const char* file, struct stat* st);
+int _symlink(const char* path1, const char* path2);
+clock_t _times(struct tms* buf);
+int _unlink(char* name);
+int _wait(int* status);
+int _write(int file, char* ptr, int len);
 
 // Definitions
 
-int __attribute__((weak))
-_chown(const char* path __attribute__((unused)),
-    uid_t owner __attribute__((unused)), gid_t group __attribute__((unused)))
+int __attribute__((weak)) _chown(const char* path __attribute__((unused)), uid_t owner __attribute__((unused)), gid_t group __attribute__((unused)))
 {
-  errno = ENOSYS;
-  return -1;
+	errno = ENOSYS;
+	return -1;
 }
 
-int __attribute__((weak))
-_close(int fildes __attribute__((unused)))
+int __attribute__((weak)) _close(int fildes __attribute__((unused)))
 {
-  errno = ENOSYS;
-  return -1;
+	errno = ENOSYS;
+	return -1;
 }
 
-int __attribute__((weak))
-_execve(char* name __attribute__((unused)), char** argv __attribute__((unused)),
-    char** env __attribute__((unused)))
+int __attribute__((weak)) _execve(char* name __attribute__((unused)), char** argv __attribute__((unused)), char** env __attribute__((unused)))
 {
-  errno = ENOSYS;
-  return -1;
+	errno = ENOSYS;
+	return -1;
 }
 
-int __attribute__((weak))
-_fork(void)
+int __attribute__((weak)) _fork(void)
 {
-  errno = ENOSYS;
-  return -1;
+	errno = ENOSYS;
+	return -1;
 }
 
-int __attribute__((weak))
-_fstat(int fildes __attribute__((unused)),
-    struct stat* st __attribute__((unused)))
+int __attribute__((weak)) _fstat(int fildes __attribute__((unused)), struct stat* st __attribute__((unused)))
 {
-  errno = ENOSYS;
-  return -1;
+	errno = ENOSYS;
+	return -1;
 }
 
-int __attribute__((weak))
-_getpid(void)
+int __attribute__((weak)) _getpid(void)
 {
-  errno = ENOSYS;
-  return -1;
+	errno = ENOSYS;
+	return -1;
 }
 
-int __attribute__((weak))
-_gettimeofday(struct timeval* ptimeval __attribute__((unused)),
-    void* ptimezone __attribute__((unused)))
+int __attribute__((weak)) _gettimeofday(struct timeval* ptimeval __attribute__((unused)), void* ptimezone __attribute__((unused)))
 {
-  errno = ENOSYS;
-  return -1;
+	errno = ENOSYS;
+	return -1;
 }
 
-int __attribute__((weak))
-_isatty(int file __attribute__((unused)))
+int __attribute__((weak)) _isatty(int file __attribute__((unused)))
 {
-  errno = ENOSYS;
-  return 0;
+	errno = ENOSYS;
+	return 0;
 }
 
-int __attribute__((weak))
-_kill(int pid __attribute__((unused)), int sig __attribute__((unused)))
+int __attribute__((weak)) _kill(int pid __attribute__((unused)), int sig __attribute__((unused)))
 {
-  errno = ENOSYS;
-  return -1;
+	errno = ENOSYS;
+	return -1;
 }
 
-int __attribute__((weak))
-_link(char* existing __attribute__((unused)),
-    char* _new __attribute__((unused)))
+int __attribute__((weak)) _link(char* existing __attribute__((unused)), char* _new __attribute__((unused)))
 {
-  errno = ENOSYS;
-  return -1;
+	errno = ENOSYS;
+	return -1;
 }
 
-int __attribute__((weak))
-_lseek(int file __attribute__((unused)), int ptr __attribute__((unused)),
-    int dir __attribute__((unused)))
+int __attribute__((weak)) _lseek(int file __attribute__((unused)), int ptr __attribute__((unused)), int dir __attribute__((unused)))
 {
-  errno = ENOSYS;
-  return -1;
+	errno = ENOSYS;
+	return -1;
 }
 
-int __attribute__((weak))
-_open(char* file __attribute__((unused)), int flags __attribute__((unused)),
-    int mode __attribute__((unused)))
+int __attribute__((weak)) _open(char* file __attribute__((unused)), int flags __attribute__((unused)), int mode __attribute__((unused)))
 {
-  errno = ENOSYS;
-  return -1;
+	errno = ENOSYS;
+	return -1;
 }
 
-int __attribute__((weak))
-_read(int file __attribute__((unused)), char* ptr __attribute__((unused)),
-    int len __attribute__((unused)))
+int __attribute__((weak)) _read(int file __attribute__((unused)), char* ptr __attribute__((unused)), int len __attribute__((unused)))
 {
-  errno = ENOSYS;
-  return -1;
+	errno = ENOSYS;
+	return -1;
 }
 
-int __attribute__((weak))
-_readlink(const char* path __attribute__((unused)),
-    char* buf __attribute__((unused)), size_t bufsize __attribute__((unused)))
+int __attribute__((weak)) _readlink(const char* path __attribute__((unused)), char* buf __attribute__((unused)), size_t bufsize __attribute__((unused)))
 {
-  errno = ENOSYS;
-  return -1;
+	errno = ENOSYS;
+	return -1;
 }
 
-int __attribute__((weak))
-_stat(const char* file __attribute__((unused)),
-    struct stat* st __attribute__((unused)))
+int __attribute__((weak)) _stat(const char* file __attribute__((unused)), struct stat* st __attribute__((unused)))
 {
-  errno = ENOSYS;
-  return -1;
+	errno = ENOSYS;
+	return -1;
 }
 
-int __attribute__((weak))
-_symlink(const char* path1 __attribute__((unused)),
-    const char* path2 __attribute__((unused)))
+int __attribute__((weak)) _symlink(const char* path1 __attribute__((unused)), const char* path2 __attribute__((unused)))
 {
-  errno = ENOSYS;
-  return -1;
+	errno = ENOSYS;
+	return -1;
 }
 
-clock_t __attribute__((weak))
-_times(struct tms* buf __attribute__((unused)))
+clock_t __attribute__((weak)) _times(struct tms* buf __attribute__((unused)))
 {
-  errno = ENOSYS;
-  return ((clock_t) -1);
+	errno = ENOSYS;
+	return ((clock_t) -1);
 }
 
-int __attribute__((weak))
-_unlink(char* name __attribute__((unused)))
+int __attribute__((weak)) _unlink(char* name __attribute__((unused)))
 {
-  errno = ENOSYS;
-  return -1;
+	errno = ENOSYS;
+	return -1;
 }
 
-int __attribute__((weak))
-_wait(int* status __attribute__((unused)))
+int __attribute__((weak)) _wait(int* status __attribute__((unused)))
 {
-  errno = ENOSYS;
-  return -1;
+	errno = ENOSYS;
+	return -1;
 }
 
-int __attribute__((weak))
-_write(int file __attribute__((unused)), char* ptr __attribute__((unused)),
-    int len __attribute__((unused)))
+int __attribute__((weak)) _write(int file __attribute__((unused)), char* ptr __attribute__((unused)), int len __attribute__((unused)))
 {
-  errno = ENOSYS;
-  return -1;
+	errno = ENOSYS;
+	return -1;
 }
 
 // ----------------------------------------------------------------------------
@@ -336,73 +260,43 @@ _write(int file __attribute__((unused)), char* ptr __attribute__((unused)),
 
 #include "arm/semihosting.h"
 
-int
-_kill (int pid, int sig);
+int _kill (int pid, int sig);
 
-void
-__attribute__((noreturn))
-_exit (int status);
+void __attribute__((noreturn)) _exit (int status);
 
 // Forward declarations.
-int
-_system (const char*);
-int
-_rename (const char*, const char*);
-int
-_isatty (int);
-clock_t
-_times (struct tms*);
-int
-_gettimeofday (struct timeval *, void*);
-int
-_unlink (const char*);
-int
-_link (void);
+int _system (const char*);
+int _rename (const char*, const char*);
+int _isatty (int);
+clock_t _times (struct tms*);
+int _gettimeofday (struct timeval *, void*);
+int _unlink (const char*);
+int _link (void);
 
-int
-_stat (const char*, struct stat*);
+int _stat (const char*, struct stat*);
 
-int
-_fstat (int, struct stat*);
-int
-_swistat (int fd, struct stat* st);
-int
-_getpid (int);
-int
-_close (int);
-clock_t
-_clock (void);
-int
-_swiclose (int);
-int
-_open (const char*, int, ...);
-int
-_swiopen (const char*, int);
-int
-_write (int, char*, int);
-int
-_swiwrite (int, char*, int);
-int
-_lseek (int, int, int);
-int
-_swilseek (int, int, int);
-int
-_read (int, char*, int);
-int
-_swiread (int, char*, int);
+int _fstat (int, struct stat*);
+int _swistat (int fd, struct stat* st);
+int _getpid (int);
+int _close (int);
+clock_t _clock (void);
+int _swiclose (int);
+int _open (const char*, int, ...);
+int _swiopen (const char*, int);
+int _write (int, char*, int);
+int _swiwrite (int, char*, int);
+int _lseek (int, int, int);
+int _swilseek (int, int, int);
+int _read (int, char*, int);
+int _swiread (int, char*, int);
 
-void
-initialise_monitor_handles (void);
+void initialise_monitor_handles (void);
 
-void
-__initialize_args (int* p_argc, char*** p_argv);
+void __initialize_args (int* p_argc, char*** p_argv);
 
-static int
-checkerror (int);
-static int
-error (int);
-static int
-get_errno (void);
+static int checkerror (int);
+static int error (int);
+static int get_errno (void);
 
 // ----------------------------------------------------------------------------
 
@@ -410,14 +304,13 @@ get_errno (void);
 #define ARGV_BUF_ARRAY_SIZE 10
 
 typedef struct
-  {
-    char* pCommandLine;
-    int size;
-  }CommandLineBlock;
+{
+	char* pCommandLine;
+	int size;
+}CommandLineBlock;
 
-void
-__initialize_args (int* p_argc, char*** p_argv)
-  {
+void__initialize_args (int* p_argc, char*** p_argv)
+{
 
     // Array of chars to receive the command line from the host
     static char args_buf[ARGS_BUF_ARRAY_SIZE];
@@ -501,7 +394,7 @@ __initialize_args (int* p_argc, char*** p_argv)
     initialise_monitor_handles ();
 
     return;
-  }
+}
 
 // ----------------------------------------------------------------------------
 

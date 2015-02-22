@@ -1,5 +1,17 @@
-#include <stm32f3xx.h>
-#include <stm32f3xx_hal.h>
+#include "main.h"
+
+extern "C"
+{
+	extern PCD_HandleTypeDef hpcd;
+	USBD_HandleTypeDef hUSBDDevice;
+
+	/* UART handler declared in "usbd_cdc_interface.c" file */
+	extern UART_HandleTypeDef UartHandle;
+
+	/* TIM handler declared in "usbd_cdc_interface.c" file */
+	extern TIM_HandleTypeDef TimHandle;
+}
+
 
 /**
  * @brief Initializes the LEDs.
@@ -67,7 +79,8 @@ void EnableTimerInterrupt()
 /**
  * @brief Configures the PA8 pin to follow the system clock (or system clock input).
  */
-void InitializeMCOGPIO() {
+void InitializeMCOGPIO()
+{
 	__GPIOA_CLK_ENABLE();
 
 	/* Configure MCO (PA8) */
@@ -83,8 +96,6 @@ void InitializeMCOGPIO() {
 	HAL_RCC_MCOConfig(RCC_MCO, RCC_MCOSOURCE_HSE, RCC_MCO_NODIV);
 }
 
-volatile uint32_t clockSpeed = 0;
-
 /**
  * @brief Main entry point.
  * @param argc argument count when semihosting
@@ -98,13 +109,33 @@ int main(__attribute__((unused)) int argc, __attribute__((unused)) char* argv[])
     EnableTimerInterrupt();
     InitializeMCOGPIO();
 
+    /* Init Device Library */
+	USBD_Init(&hUSBDDevice, &VCP_Desc, 0);
+
+	/* Add Supported Class */
+	USBD_RegisterClass(&hUSBDDevice, &USBD_CDC);
+
+	/* Add CDC Interface Class */
+	USBD_CDC_RegisterInterface(&hUSBDDevice, &USBD_CDC_fops);
+
+	/* Start Device Process */
+	USBD_Start(&hUSBDDevice);
+
     for (;;)
     {
-    	clockSpeed = SystemCoreClock;
     }
 
 	// yup
 	return 0;
+}
+
+/**
+ * @brief System Tick Handler
+ */
+extern "C" void SysTick_Handler()
+{
+    HAL_IncTick();
+    HAL_SYSTICK_IRQHandler();
 }
 
 /**
@@ -119,4 +150,138 @@ extern "C" void TIM2_IRQHandler()
     	__HAL_TIM_CLEAR_FLAG(&TIM_Handle, TIM_IT_UPDATE);
         HAL_GPIO_TogglePin(GPIOE, GPIO_PIN_8);
     }
+}
+
+
+/**
+  * @brief  This function handles NMI exception.
+  * @param  None
+  * @retval None
+  */
+extern "C" void NMI_Handler(void)
+{
+}
+
+/**
+  * @brief  This function handles Hard Fault exception.
+  * @param  None
+  * @retval None
+  */
+extern "C" void HardFault_Handler(void)
+{
+  /* Go to infinite loop when Hard Fault exception occurs */
+  while (1)
+  {
+  }
+}
+
+/**
+  * @brief  This function handles Memory Manage exception.
+  * @param  None
+  * @retval None
+  */
+extern "C" void MemManage_Handler(void)
+{
+  /* Go to infinite loop when Memory Manage exception occurs */
+  while (1)
+  {
+  }
+}
+
+/**
+  * @brief  This function handles Bus Fault exception.
+  * @param  None
+  * @retval None
+  */
+extern "C" void BusFault_Handler(void)
+{
+  /* Go to infinite loop when Bus Fault exception occurs */
+  while (1)
+  {
+  }
+}
+
+/**
+  * @brief  This function handles Usage Fault exception.
+  * @param  None
+  * @retval None
+  */
+extern "C" void UsageFault_Handler(void)
+{
+  /* Go to infinite loop when Usage Fault exception occurs */
+  while (1)
+  {
+  }
+}
+
+/**
+  * @brief  This function handles SVCall exception.
+  * @param  None
+  * @retval None
+  */
+extern "C" void SVC_Handler(void)
+{
+}
+
+/**
+  * @brief  This function handles Debug Monitor exception.
+  * @param  None
+  * @retval None
+  */
+extern "C" void DebugMon_Handler(void)
+{
+}
+
+/**
+  * @brief  This function handles PendSVC exception.
+  * @param  None
+  * @retval None
+  */
+extern "C" void PendSV_Handler(void)
+{
+}
+
+
+/**
+  * @brief  This function handles USB Handler.
+  * @param  None
+  * @retval None
+  */
+#if defined (USE_USB_INTERRUPT_DEFAULT)
+extern "C" void USB_LP_CAN1_RX0_IRQHandler(void)
+#elif defined (USE_USB_INTERRUPT_REMAPPED)
+extern "C" void USB_LP_IRQHandler(void)
+#endif
+{
+	HAL_PCD_IRQHandler(&hpcd);
+}
+
+/**
+  * @brief  This function handles DMA interrupt request.
+  * @param  None
+  * @retval None
+  */
+extern "C" void USARTx_DMA_TX_IRQHandler(void)
+{
+	HAL_DMA_IRQHandler(UartHandle.hdmatx);
+}
+
+/**
+  * @brief  This function handles UART interrupt request.
+  * @param  None
+  * @retval None
+  */
+extern "C" void USARTx_IRQHandler(void)
+{
+	HAL_UART_IRQHandler(&UartHandle);
+}
+
+/**
+  * @brief  This function handles TIM interrupt request.
+  * @param  None
+  * @retval None
+  */
+extern "C" void TIMx_IRQHandler(void)
+{
+	HAL_TIM_IRQHandler(&TimHandle);
 }
