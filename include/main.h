@@ -12,6 +12,8 @@ extern "C" {
 	#include "usbd_desc.h"
 	#include <usbd_hid.h>
 
+	#include "error_handler.h"
+
 #ifdef __cplusplus
 }
 #endif

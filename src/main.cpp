@@ -42,12 +42,18 @@ void InitializeTimer()
     clockSourceConfig.ClockSource = TIM_CLOCKSOURCE_INTERNAL;
     clockSourceConfig.ClockPolarity = TIM_CLOCKPOLARITY_NONINVERTED;
     clockSourceConfig.ClockPrescaler = TIM_CLOCKPRESCALER_DIV1;
-    HAL_TIM_ConfigClockSource(&TIM_Handle, &clockSourceConfig); // TODO: check return value
+    if (HAL_TIM_ConfigClockSource(&TIM_Handle, &clockSourceConfig) != HAL_OK) {
+    	Error_Handler();
+    }
 
-	HAL_TIM_Base_Init(&TIM_Handle); // TODO: check return value
+	if (HAL_TIM_Base_Init(&TIM_Handle) != HAL_OK) {
+		Error_Handler();
+    }
 
 	// start the timer
-	HAL_TIM_Base_Start_IT(&TIM_Handle); // TODO: check return value
+	if (HAL_TIM_Base_Start_IT(&TIM_Handle) != HAL_OK) {
+		Error_Handler();
+    }
 
     // allow timer interrupt
 	__HAL_TIM_ENABLE_IT(&TIM_Handle, TIM_IT_UPDATE);
