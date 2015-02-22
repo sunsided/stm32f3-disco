@@ -257,11 +257,11 @@ __ALIGN_BEGIN static uint8_t HID_MOUSE_ReportDesc[HID_MOUSE_REPORT_DESC_SIZE]  _
   0x75,   0x01, //		REPORT_SIZE (1)
 
   0x95,   0x02, //		REPORT_COUNT (2)
-  0xb1,   0x22, //		FEATURE (?)
+  0xb1,   0x22, //		FEATURE (Var,No Preferred)
   0x75,   0x06, //		REPORT_SIZE (6)
   0x95,   0x01, //		REPORT_COUNT (1)
 
-  0xb1,   0x01, //		FEATURE (?)
+  0xb1,   0x01, //		FEATURE (Cnst)
   0xc0			//	END_COLLECTION
 }; 
 
