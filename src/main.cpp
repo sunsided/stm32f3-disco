@@ -1,6 +1,7 @@
 #include "main.h"
 
-extern "C" {
+extern "C"
+{
 	extern PCD_HandleTypeDef hpcd;
 	USBD_HandleTypeDef hUSBDDevice;
 
