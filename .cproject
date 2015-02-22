@@ -169,7 +169,7 @@
 						</tool>
 					</fileInfo>
 					<sourceEntries>
-						<entry excluding="class/cdc/src|core/src" flags="VALUE_WORKSPACE_PATH" kind="sourcePath" name="middleware/usb"/>
+						<entry flags="VALUE_WORKSPACE_PATH" kind="sourcePath" name="middleware/usb"/>
 						<entry flags="VALUE_WORKSPACE_PATH|RESOLVED" kind="sourcePath" name="src"/>
 						<entry flags="VALUE_WORKSPACE_PATH" kind="sourcePath" name="system"/>
 					</sourceEntries>
