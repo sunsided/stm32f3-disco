@@ -6,6 +6,7 @@
 // ----------------------------------------------------------------------------
 
 #include "cortexm/ExceptionHandlers.h"
+#include <stm32f3xx.h>
 
 // ----------------------------------------------------------------------------
 
@@ -283,12 +284,15 @@ pHandler __isr_vectors[] =
 // Processor ends up here if an unexpected interrupt occurs or a specific
 // handler is not present in the application code.
 
-void __attribute__ ((section(".after_vectors")))
+void __attribute__ ((section(".after_vectors"),optimize("O0")))
 Default_Handler(void)
 {
-  while (1)
-    {
-    }
+	const volatile xPSR_Type xpsr = (xPSR_Type)__get_xPSR();
+	__attribute__((unused)) const volatile int irq = xpsr.b.ISR;
+
+	while (1)
+	{
+	}
 }
 
 // ----------------------------------------------------------------------------
