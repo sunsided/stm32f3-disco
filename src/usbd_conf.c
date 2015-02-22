@@ -1,6 +1,6 @@
 /**
   ******************************************************************************
-  * @file    USB_Device/CDC_Standalone/Src/usbd_conf.c
+  * @file    Demonstrations/Src/usbd_conf.c
   * @author  MCD Application Team
   * @version V1.0.0
   * @date    18-June-2014
@@ -29,12 +29,10 @@
 #include "main.h"
 /* Private typedef -----------------------------------------------------------*/
 /* Private define ------------------------------------------------------------*/
-#define USB_DISCONNECT_PORT                 GPIOB  
-#define USB_DISCONNECT_PIN                  GPIO_PIN_8
-
 /* Private macro -------------------------------------------------------------*/
 /* Private variables ---------------------------------------------------------*/
 PCD_HandleTypeDef hpcd;
+
 /* Private function prototypes -----------------------------------------------*/
 /* Private functions ---------------------------------------------------------*/
 
@@ -47,15 +45,12 @@ PCD_HandleTypeDef hpcd;
   * @param  hpcd: PCD handle
   * @retval None
   */
-void HAL_PCD_MspInit(PCD_HandleTypeDef __attribute__((unused)) *hpcd)
+void HAL_PCD_MspInit(PCD_HandleTypeDef *hpcd)
 {
   GPIO_InitTypeDef  GPIO_InitStruct;
   
   /* Enable the GPIOA clock for USB DataLines */
   __GPIOA_CLK_ENABLE();
-  
-  /* Enable the GPIOB clock for USB external Pull-Up */
-  __GPIOB_CLK_ENABLE();
   
   /* Configure USB DM and DP pins */
   GPIO_InitStruct.Pin = (GPIO_PIN_11 | GPIO_PIN_12);
@@ -65,18 +60,12 @@ void HAL_PCD_MspInit(PCD_HandleTypeDef __attribute__((unused)) *hpcd)
   GPIO_InitStruct.Alternate = GPIO_AF14_USB;
   HAL_GPIO_Init(GPIOA, &GPIO_InitStruct); 
   
-  GPIO_InitStruct.Pin = USB_DISCONNECT_PIN;
-  GPIO_InitStruct.Mode = GPIO_MODE_OUTPUT_OD;
-  GPIO_InitStruct.Pull = GPIO_NOPULL;
-  GPIO_InitStruct.Speed = GPIO_SPEED_LOW;
-  HAL_GPIO_Init(USB_DISCONNECT_PORT, &GPIO_InitStruct); 
-  
   /* Enable USB FS Clock */
   __USB_CLK_ENABLE();
   
   /* Enable SYSCFG Clock */
   __SYSCFG_CLK_ENABLE();
-  
+
 #if defined (USE_USB_INTERRUPT_REMAPPED)
   /*USB interrupt remapping enable */
   __HAL_REMAPINTERRUPT_USB_ENABLE();
@@ -85,14 +74,14 @@ void HAL_PCD_MspInit(PCD_HandleTypeDef __attribute__((unused)) *hpcd)
 #if defined (USE_USB_INTERRUPT_DEFAULT)
   
   /* Set USB Default FS Interrupt priority */
-  HAL_NVIC_SetPriority(USB_LP_CAN_RX0_IRQn, 5, 0);
+  HAL_NVIC_SetPriority(USB_LP_CAN_RX0_IRQn, 0x0F, 0);
   
   /* Enable USB FS Interrupt */
   HAL_NVIC_EnableIRQ(USB_LP_CAN_RX0_IRQn); 
   
 #elif defined (USE_USB_INTERRUPT_REMAPPED)
   /* Set USB Remapped FS Interrupt priority */
-  HAL_NVIC_SetPriority(USB_LP_IRQn, 5, 0);
+  HAL_NVIC_SetPriority(USB_LP_IRQn, 0x0F, 0);
   
   /* Enable USB FS Interrupt */
   HAL_NVIC_EnableIRQ(USB_LP_IRQn); 
@@ -176,7 +165,7 @@ void HAL_PCD_ResetCallback(PCD_HandleTypeDef *hpcd)
   * @param  hpcd: PCD handle
   * @retval None
   */
-void HAL_PCD_SuspendCallback(__attribute__((unused)) PCD_HandleTypeDef *hpcd)
+void HAL_PCD_SuspendCallback(PCD_HandleTypeDef *hpcd)
 {
 }
 
@@ -185,7 +174,7 @@ void HAL_PCD_SuspendCallback(__attribute__((unused)) PCD_HandleTypeDef *hpcd)
   * @param  hpcd: PCD handle
   * @retval None
   */
-void HAL_PCD_ResumeCallback(__attribute__((unused)) PCD_HandleTypeDef *hpcd)
+void HAL_PCD_ResumeCallback(PCD_HandleTypeDef *hpcd)
 {
 }
 
@@ -254,12 +243,10 @@ USBD_StatusTypeDef USBD_LL_Init(USBD_HandleTypeDef *pdev)
   /* Initialize LL Driver */
   HAL_PCD_Init(pdev->pData);
   
-  HAL_PCDEx_PMAConfig(pdev->pData , 0x00 , PCD_SNG_BUF, 0x40);
-  HAL_PCDEx_PMAConfig(pdev->pData , 0x80 , PCD_SNG_BUF, 0x80);
-  HAL_PCDEx_PMAConfig(pdev->pData , CDC_IN_EP , PCD_SNG_BUF, 0xC0);  
-  HAL_PCDEx_PMAConfig(pdev->pData , CDC_OUT_EP , PCD_SNG_BUF, 0x110);
-  HAL_PCDEx_PMAConfig(pdev->pData , CDC_CMD_EP , PCD_SNG_BUF, 0x100); 
-    
+  HAL_PCDEx_PMAConfig(pdev->pData , 0x00 , PCD_SNG_BUF, 0x18);
+  HAL_PCDEx_PMAConfig(pdev->pData , 0x80 , PCD_SNG_BUF, 0x58);
+  HAL_PCDEx_PMAConfig(pdev->pData , 0x81 , PCD_SNG_BUF, 0x100);  
+  
   return USBD_OK;
 }
 
@@ -457,7 +444,7 @@ void USBD_LL_Delay(uint32_t Delay)
   * @param  size: size of allocated memory
   * @retval None
   */
-void *USBD_static_malloc(__attribute__((unused)) uint32_t size)
+void *USBD_static_malloc(uint32_t size)
 {
   static uint32_t mem[MAX_STATIC_ALLOC_SIZE];
   return mem;
@@ -468,7 +455,7 @@ void *USBD_static_malloc(__attribute__((unused)) uint32_t size)
   * @param  *p pointer to allocated  memory address
   * @retval None
   */
-void USBD_static_free(__attribute__((unused)) void *p)
+void USBD_static_free(void *p)
 {
 
 }
@@ -479,16 +466,9 @@ void USBD_static_free(__attribute__((unused)) void *p)
   * @param  state: connection state (0 : disconnected / 1: connected) 
   * @retval None
   */
-void HAL_PCDEx_SetConnectionState(__attribute__((unused)) PCD_HandleTypeDef *hpcd, uint8_t state)
+void HAL_PCDEx_SetConnectionState(PCD_HandleTypeDef *hpcd, uint8_t state)
 {
-  if(state == 1)
-  {
-    HAL_GPIO_WritePin(USB_DISCONNECT_PORT, USB_DISCONNECT_PIN, GPIO_PIN_RESET);
-  }
-  else
-  {
-    HAL_GPIO_WritePin(USB_DISCONNECT_PORT, USB_DISCONNECT_PIN, GPIO_PIN_SET);
-  }  
+  /* The STM32F3 Discovery Board emmbed the external 
+     DP Pull-UP 1.5 K resistor R16 */ 
 }
-
 /************************ (C) COPYRIGHT STMicroelectronics *****END OF FILE****/

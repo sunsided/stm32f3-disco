@@ -1,6 +1,6 @@
 /**
   ******************************************************************************
-  * @file    USB_Device/CDC_Standalone/Inc/usbd_conf.h
+  * @file    Demonstrations/Inc/usbd_conf.h
   * @author  MCD Application Team
   * @version V1.0.0
   * @date    18-June-2014
@@ -48,13 +48,13 @@
 /* Exported macro ------------------------------------------------------------*/
 /* Memory management macros */   
 
-/* For footprint reasons and since only one allocation is handled in the CDC class 
+/* For footprint reasons and since only one allocation is handled in the HID class 
    driver, the malloc/free is changed into a static allocation method */
 
 void *USBD_static_malloc(uint32_t size);
 void USBD_static_free(void *p);
 
-#define MAX_STATIC_ALLOC_SIZE     140 /*CDC Class Driver Structure size*/ // TODO this might blow up
+#define MAX_STATIC_ALLOC_SIZE     4 /*HID Class Driver Structure size*/
 
 #define USBD_malloc               (uint32_t *)USBD_static_malloc
 #define USBD_free                 USBD_static_free
