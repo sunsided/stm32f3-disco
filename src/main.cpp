@@ -4,6 +4,9 @@ extern "C" {
 	extern PCD_HandleTypeDef hpcd;
 	USBD_HandleTypeDef hUSBDDevice;
 
+	/* UART handler declared in "usbd_cdc_interface.c" file */
+	extern UART_HandleTypeDef UartHandle;
+
 	/* TIM handler declared in "usbd_cdc_interface.c" file */
 	extern TIM_HandleTypeDef TimHandle;
 }
@@ -261,7 +264,7 @@ extern "C" void USB_LP_IRQHandler(void)
   */
 extern "C" void USARTx_DMA_TX_IRQHandler(void)
 {
-  // HAL_DMA_IRQHandler(UartHandle.hdmatx);
+	HAL_DMA_IRQHandler(UartHandle.hdmatx);
 }
 
 /**
@@ -271,7 +274,7 @@ extern "C" void USARTx_DMA_TX_IRQHandler(void)
   */
 extern "C" void USARTx_IRQHandler(void)
 {
-  // HAL_UART_IRQHandler(&UartHandle);
+	HAL_UART_IRQHandler(&UartHandle);
 }
 
 /**
