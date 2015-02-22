@@ -54,7 +54,7 @@
 void *USBD_static_malloc(uint32_t size);
 void USBD_static_free(void *p);
 
-#define MAX_STATIC_ALLOC_SIZE     140 /*CDC Class Driver Structure size*/
+#define MAX_STATIC_ALLOC_SIZE     140 /*CDC Class Driver Structure size*/ // TODO this might blow up
 
 #define USBD_malloc               (uint32_t *)USBD_static_malloc
 #define USBD_free                 USBD_static_free

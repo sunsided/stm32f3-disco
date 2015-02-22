@@ -47,7 +47,7 @@ PCD_HandleTypeDef hpcd;
   * @param  hpcd: PCD handle
   * @retval None
   */
-void HAL_PCD_MspInit(PCD_HandleTypeDef *hpcd)
+void HAL_PCD_MspInit(PCD_HandleTypeDef __attribute__((unused)) *hpcd)
 {
   GPIO_InitTypeDef  GPIO_InitStruct;
   
@@ -176,7 +176,7 @@ void HAL_PCD_ResetCallback(PCD_HandleTypeDef *hpcd)
   * @param  hpcd: PCD handle
   * @retval None
   */
-void HAL_PCD_SuspendCallback(PCD_HandleTypeDef *hpcd)
+void HAL_PCD_SuspendCallback(__attribute__((unused)) PCD_HandleTypeDef *hpcd)
 {
 }
 
@@ -185,7 +185,7 @@ void HAL_PCD_SuspendCallback(PCD_HandleTypeDef *hpcd)
   * @param  hpcd: PCD handle
   * @retval None
   */
-void HAL_PCD_ResumeCallback(PCD_HandleTypeDef *hpcd)
+void HAL_PCD_ResumeCallback(__attribute__((unused)) PCD_HandleTypeDef *hpcd)
 {
 }
 
@@ -457,7 +457,7 @@ void USBD_LL_Delay(uint32_t Delay)
   * @param  size: size of allocated memory
   * @retval None
   */
-void *USBD_static_malloc(uint32_t size)
+void *USBD_static_malloc(__attribute__((unused)) uint32_t size)
 {
   static uint32_t mem[MAX_STATIC_ALLOC_SIZE];
   return mem;
@@ -468,7 +468,7 @@ void *USBD_static_malloc(uint32_t size)
   * @param  *p pointer to allocated  memory address
   * @retval None
   */
-void USBD_static_free(void *p)
+void USBD_static_free(__attribute__((unused)) void *p)
 {
 
 }
@@ -479,7 +479,7 @@ void USBD_static_free(void *p)
   * @param  state: connection state (0 : disconnected / 1: connected) 
   * @retval None
   */
-void HAL_PCDEx_SetConnectionState(PCD_HandleTypeDef *hpcd, uint8_t state)
+void HAL_PCDEx_SetConnectionState(__attribute__((unused)) PCD_HandleTypeDef *hpcd, uint8_t state)
 {
   if(state == 1)
   {
