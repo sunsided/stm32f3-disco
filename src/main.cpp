@@ -10,16 +10,16 @@ TIM_HandleTypeDef TIM_Handle;
  */
 void InitializeLEDs()
 {
-    __GPIOE_CLK_ENABLE();
+	__GPIOE_CLK_ENABLE();
 
-    GPIO_InitTypeDef gpioStructure;
-    gpioStructure.Pin = GPIO_PIN_8;
-    gpioStructure.Mode = GPIO_MODE_OUTPUT_PP;
-    gpioStructure.Pull = GPIO_PULLUP;
-    gpioStructure.Speed = GPIO_SPEED_HIGH;
-    HAL_GPIO_Init(GPIOE, &gpioStructure);
+	GPIO_InitTypeDef gpioStructure;
+	gpioStructure.Pin = GPIO_PIN_8;
+	gpioStructure.Mode = GPIO_MODE_OUTPUT_PP;
+	gpioStructure.Pull = GPIO_PULLUP;
+	gpioStructure.Speed = GPIO_SPEED_HIGH;
+	HAL_GPIO_Init(GPIOE, &gpioStructure);
 
-    HAL_GPIO_WritePin(GPIOE, GPIO_PIN_8, GPIO_PIN_RESET);
+	HAL_GPIO_WritePin(GPIOE, GPIO_PIN_8, GPIO_PIN_RESET);
 }
 
 /**
@@ -29,33 +29,36 @@ void InitializeLEDs()
  */
 void InitializeTimer()
 {
-    __TIM2_CLK_ENABLE();
+	__TIM2_CLK_ENABLE();
 
-    TIM_Handle.Instance = TIM2;
+	TIM_Handle.Instance = TIM2;
 	TIM_Handle.Init.Prescaler = 40000;
 	TIM_Handle.Init.CounterMode = TIM_COUNTERMODE_UP;
 	TIM_Handle.Init.Period = 500;
 	TIM_Handle.Init.ClockDivision = TIM_CLOCKDIVISION_DIV1;
 	TIM_Handle.Init.RepetitionCounter = 0;
 
-    TIM_ClockConfigTypeDef clockSourceConfig;
-    clockSourceConfig.ClockSource = TIM_CLOCKSOURCE_INTERNAL;
-    clockSourceConfig.ClockPolarity = TIM_CLOCKPOLARITY_NONINVERTED;
-    clockSourceConfig.ClockPrescaler = TIM_CLOCKPRESCALER_DIV1;
-    if (HAL_TIM_ConfigClockSource(&TIM_Handle, &clockSourceConfig) != HAL_OK) {
-    	Error_Handler();
-    }
-
-	if (HAL_TIM_Base_Init(&TIM_Handle) != HAL_OK) {
+	TIM_ClockConfigTypeDef clockSourceConfig;
+	clockSourceConfig.ClockSource = TIM_CLOCKSOURCE_INTERNAL;
+	clockSourceConfig.ClockPolarity = TIM_CLOCKPOLARITY_NONINVERTED;
+	clockSourceConfig.ClockPrescaler = TIM_CLOCKPRESCALER_DIV1;
+	if (HAL_TIM_ConfigClockSource(&TIM_Handle, &clockSourceConfig) != HAL_OK)
+	{
 		Error_Handler();
-    }
+	}
+
+	if (HAL_TIM_Base_Init(&TIM_Handle) != HAL_OK)
+	{
+		Error_Handler();
+	}
 
 	// start the timer
-	if (HAL_TIM_Base_Start_IT(&TIM_Handle) != HAL_OK) {
+	if (HAL_TIM_Base_Start_IT(&TIM_Handle) != HAL_OK)
+	{
 		Error_Handler();
-    }
+	}
 
-    // allow timer interrupt
+	// allow timer interrupt
 	__HAL_TIM_ENABLE_IT(&TIM_Handle, TIM_IT_UPDATE);
 }
 
@@ -98,73 +101,73 @@ void InitializeMCOGPIO()
  */
 int main(__attribute__((unused)) int argc, __attribute__((unused)) char* argv[])
 {
-    InitializeLEDs();
-    InitializeTimer();
-    EnableTimerInterrupt();
-    InitializeMCOGPIO();
+	InitializeLEDs();
+	InitializeTimer();
+	EnableTimerInterrupt();
+	InitializeMCOGPIO();
 
-    /* Init USB Device Library */
-    USBD_Init(&USBD_Device, &HID_Desc, 0);
+	/* Init USB Device Library */
+	USBD_Init(&USBD_Device, &HID_Desc, 0);
 
-    /* Register the USB HID class */
-    USBD_RegisterClass(&USBD_Device, &USBD_HID);
+	/* Register the USB HID class */
+	USBD_RegisterClass(&USBD_Device, &USBD_HID);
 
-    /* Start Device Process */
-    USBD_Start(&USBD_Device);
+	/* Start Device Process */
+	USBD_Start(&USBD_Device);
 
-    /* moving in Manhattan circles */
-    const uint8_t stepWidth = 3;
-    const uint8_t segmentLength = 40;
-    uint8_t position = 0;
-    int8_t x_increment = 0, y_increment = 0;
+	/* moving in Manhattan circles */
+	const uint8_t stepWidth = 3;
+	const uint8_t segmentLength = 40;
+	uint8_t position = 0;
+	int8_t x_increment = 0, y_increment = 0;
 
-    for (;;)
-    {
-    	HAL_Delay(25);
+	for (;;)
+	{
+		HAL_Delay(25);
 
-    	/* advance the position state */
-    	++position;
-    	if (position >= 4*segmentLength)
-    	{
-    		position = 0;
-    	}
+		/* advance the position state */
+		++position;
+		if (position >= 4 * segmentLength)
+		{
+			position = 0;
+		}
 
-    	/* translate position to pointer movement */
-    	if (position >= 3*segmentLength)
+		/* translate position to pointer movement */
+		if (position >= 3 * segmentLength)
 		{
 			x_increment = +stepWidth;
 			y_increment = -stepWidth;
 		}
-    	else if (position >= 2*segmentLength)
+		else if (position >= 2 * segmentLength)
 		{
 			x_increment = -stepWidth;
 			y_increment = -stepWidth;
 		}
-		else if (position >= 1*segmentLength)
+		else if (position >= 1 * segmentLength)
 		{
 			x_increment = -stepWidth;
 			y_increment = +stepWidth;
 		}
-    	else // if (position >= 0*segmentLength)
-    	{
-    		x_increment = +stepWidth;
-    		y_increment = +stepWidth;
-    	}
+		else // if (position >= 0*segmentLength)
+		{
+			x_increment = +stepWidth;
+			y_increment = +stepWidth;
+		}
 
-    	/* now move the pointer */
-    	uint8_t HID_Buffer[4];
+		/* now move the pointer */
+		uint8_t HID_Buffer[4];
 
-    	// 5 padding bits (7:3) and 3 button bits (2:0, 0 being left button)
-    	HID_Buffer[0] = 0;
-    	// X axis
-    	HID_Buffer[1] = x_increment;
-    	// Y axis, screen origin is top left, so positive means down
-    	HID_Buffer[2] = y_increment;
-    	// wheel
-    	HID_Buffer[3] = 0;
+		// 5 padding bits (7:3) and 3 button bits (2:0, 0 being left button)
+		HID_Buffer[0] = 0;
+		// X axis
+		HID_Buffer[1] = x_increment;
+		// Y axis, screen origin is top left, so positive means down
+		HID_Buffer[2] = y_increment;
+		// wheel
+		HID_Buffer[3] = 0;
 
-    	USBD_HID_SendReport(&USBD_Device, HID_Buffer, 4);
-    }
+		USBD_HID_SendReport(&USBD_Device, HID_Buffer, 4);
+	}
 
 	// yup
 	return 0;
